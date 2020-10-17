@@ -1,8 +1,10 @@
 import { Router, Request, Response } from 'express'
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated'
+
 const userRoutes = Router()
 
-//userRoutes.use(ensureAuthenticated)
+userRoutes.use(ensureAuthenticated)
 
 userRoutes.post('/', async (request: Request, response: Response) => {
     return response.json({

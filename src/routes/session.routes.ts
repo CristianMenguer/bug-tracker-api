@@ -5,16 +5,14 @@ const sessionRoutes = Router()
 
 sessionRoutes.post('/', async (request: Request, response: Response) => {
     const { username, password } = request.body
-
+    
     const authenticateUser = new AuthenticateUserService()
 
     const { user, token } = await authenticateUser.execute({
         username,
         password
     })
-
-    //delete user.password
-
+    
     return response.json({ user, token })
 })
 

@@ -1,7 +1,8 @@
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
-import User from '../models/User'
+import User from '../entities/User'
+import { getByUserName } from '../models/user'
 import authConfig from '../config/auth'
 import AppError from '../errors/AppError'
 
@@ -16,33 +17,34 @@ interface ResponseDTO {
 }
 
 class AuthenticateUserService {
-    public async execute({
-        username,
-        password
-    }: RequestDTO): Promise<ResponseDTO> {
-        const userRepository: object = {}
 
-        const userByEmail = true //await userRepository.findOne({ where: { username } })
+    public async execute({ username, password }: RequestDTO): Promise<ResponseDTO> {
+        
+        const usersByUsername: User[] = await getByUserName(username)
 
-        if (!userByEmail) {
-            throw new AppError('Incorrect email/password combination!', 401)
+        if (!usersByUsername || usersByUsername.length < 1) {
+            throw new AppError('User not found!', 401)
         }
 
-        const passwordMatched = true //await compare(password, userByEmail.password)
+        const userByUsername = usersByUsername[0]
+        
+        const passwordMatched = true//await compare(password, userByUsername.password)
 
         if (!passwordMatched) {
             throw new AppError('Incorrect email/password combination!', 401)
         }
 
+        
+
         const { secret, expiresIn } = authConfig.jwt
 
-        const token = sign({}, secret, {
-            subject: '', //userByEmail.id,
+        const token = sign({ username }, secret, {
+            subject: userByUsername._id,
             expiresIn
         })
 
         return {
-            user: new User, //userByEmail,
+            user: userByUsername,
             token
         }
     }

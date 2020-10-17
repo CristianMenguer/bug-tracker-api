@@ -1,6 +1,6 @@
 export default {
     jwt: {
-        secret: 'a22e0f955bd579b4e8507b0b83d47a9c',
+        secret: 'Cristian Menguer - 2020087',
         expiresIn: '1d'
     }
 }
