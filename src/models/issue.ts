@@ -1,5 +1,6 @@
 import * as db from '../database'
 import Issue from '../entities/Issue'
+import Project from '../entities/Project'
 
 const COLLECTION = 'issue'
 
@@ -16,22 +17,22 @@ export const getAll = async (): Promise<Issue[]> => {
 
 }
 
-export const getBySlug = async (slug: string): Promise<Issue> => {
+export const getByTitleProject = async (title: string, project: Project): Promise<Issue> => {
 
-    if (!slug)
+    if (!title)
         return new Promise<Issue>((resolve) => resolve())
 
-    const issues = await db.get(COLLECTION, { slug }) as Issue[]
+    const issues = await db.get(COLLECTION, { title, project }) as Issue[]
 
     return issues[0]
 }
 
-export const getByName = async (name: string): Promise<Issue> => {
+export const getByProject = async (project: Project): Promise<Issue[]> => {
 
-    if (!name)
-        return new Promise<Issue>((resolve) => resolve())
+    if (!project)
+        return new Promise<Issue[]>((resolve) => resolve())
 
-    const issues = await db.get(COLLECTION, { name }) as Issue[]
+    const issues = await db.get(COLLECTION, { project }) as Issue[]
 
-    return issues[0]
+    return issues
 }

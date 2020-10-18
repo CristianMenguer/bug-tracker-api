@@ -17,15 +17,14 @@ issueRoutes.post('/', async (request: Request, response: Response) => {
 
         const createIssue = new CreateIssueService()
 
-        // const issue = await createIssue.execute({
-        //     title,
-        //     description,
-        //     project_id,
-        //     number
-        // })
+        const issue = await createIssue.execute({
+            title,
+            description,
+            project_id,
+            number
+        })
 
-        return response.json({})
-        // return response.json(issue)
+        return response.json(issue)
         
     } catch (err) {
         return response.status(409).json({ error: err.message })
@@ -38,6 +37,8 @@ issueRoutes.get('/', async (request: Request, response: Response) => {
     for (const issue of issues) {
         delete issue.created_at
         delete issue.updated_at
+        delete issue.project.updated_at
+        delete issue.project.created_at
     }
 
     return response.json(issues)

@@ -17,6 +17,8 @@ class Issue {
         this.status = IssueStatus.OPEN
         this.project = project
         this.number = number
+        this.created_at = new Date()
+        this.updated_at = new Date()
     }
 
     issueNumber() {

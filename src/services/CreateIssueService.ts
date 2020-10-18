@@ -1,40 +1,44 @@
 import { hash } from 'bcryptjs'
 
-import { getBySlug, getByName, createNewProject } from '../models/project'
-import Project from '../entities/Project'
+import { getByTitleProject, createNewIssue } from '../models/issue'
+import { getById } from '../models/project'
+import Issue from '../entities/Issue'
 import AppError from '../errors/AppError'
 
 interface RequestDTO {
-    slug: string
-    name: string
+    title: string
     description: string
+    project_id: string
+    number: number
 }
 
 class CreateIssueService {
-    public async execute({ slug, name, description }: RequestDTO): Promise<Project> {
+    public async execute({ title, description, project_id, number }: RequestDTO): Promise<Issue> {
         
-        let projectFromDb = await getBySlug(slug)
+        const projectById = await getById(project_id)
+        
+        if (!projectById) 
+            throw new AppError('Project not found!')
 
-        if (projectFromDb) {
-            throw new AppError('Slug has already been registered!')
+        const issueFromDb = await getByTitleProject(title, projectById)
+        
+        if (issueFromDb) {
+            throw new AppError('Issue has already been registered!')
         }
 
-        projectFromDb = await getByName(name)
-
-        if (projectFromDb) {
-            throw new AppError('Name has already been registered!')
-        }
-
-        const project = await createNewProject(new Project (
-            slug,
-            name,
-            description
+        const issue = await createNewIssue(new Issue (
+            title,
+            description,
+            projectById,
+            number
         ))
 
-        delete project.created_at
-        delete project.updated_at
+        delete issue.project.created_at
+        delete issue.project.updated_at
+        delete issue.created_at
+        delete issue.updated_at
 
-        return project
+        return issue
     }
 }
 

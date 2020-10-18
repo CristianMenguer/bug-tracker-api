@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import * as db from '../database'
 import Project from '../entities/Project'
 
@@ -35,4 +36,15 @@ export const getByName = async (name: string): Promise<Project> => {
     const projects = await db.get(COLLECTION, { name }) as Project[]
 
     return projects[0]
+}
+
+export const getById = async (_id: string): Promise<Project> => {
+
+    if (!_id)
+        return new Promise<Project>((resolve) => resolve())
+
+    const projects = await db.get(COLLECTION, { _id: new ObjectId(_id) }) as Project[]
+
+    return projects[0]
+    
 }
