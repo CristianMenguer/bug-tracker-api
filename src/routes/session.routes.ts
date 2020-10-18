@@ -12,7 +12,7 @@ sessionRoutes.post('/', async (request: Request, response: Response) => {
         username,
         password
     })
-    
+
     return response.json({ user, token })
 })
 

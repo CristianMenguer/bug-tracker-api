@@ -1,21 +1,23 @@
+import { IssueStatus } from "../constants/IssueStatus"
 import Project from "./Project"
 
-enum IssueStatus {
-    OPEN = 'open',
-    WIP = 'wip',
-    BLOCKED = 'blocked',
-    CLOSED = 'closed'
-}
-
 class Issue {
-    _id: string
+    _id?: string
     title: string
     description: string
     status: IssueStatus
     project: Project
     number: number
-    created_at: Date
-    updated_at: Date
+    created_at?: Date
+    updated_at?: Date
+
+    constructor(title: string, description: string, status: IssueStatus, project: Project, number: number) {
+        this.title = title
+        this.description = description
+        this.status = status
+        this.project = project
+        this.number = number
+    }
 
     issueNumber() {
         return this.project.slug + '-' + this.number

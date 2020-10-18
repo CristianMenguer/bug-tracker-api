@@ -16,7 +16,7 @@ routes.use('/session', sessionRoutes)
 
 routes.get('/', (request: Request, response: Response) => {
     return response.json({
-        message: 'Hey 👍🏼'
+        message: 'Hey, welcome to Cristian Menguer - 2020087 API 👍🏼'
     })
 })
 

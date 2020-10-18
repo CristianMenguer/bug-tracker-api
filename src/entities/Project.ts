@@ -1,10 +1,18 @@
 class Project {
-    _id: string
+    _id?: string
     slug: string
     name: string
     description: string
-    created_at: Date
-    updated_at: Date
+    created_at?: Date
+    updated_at?: Date
+
+    constructor(slug: string, name: string, description: string) {
+        this.slug = slug
+        this.name = name
+        this.description = description
+        this.created_at = new Date()
+        this.updated_at = new Date()
+    }
 }
 
 export default Project

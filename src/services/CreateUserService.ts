@@ -3,7 +3,6 @@ import { hash } from 'bcryptjs'
 import { getByEmail, getByUserName, createNewUser } from '../models/user'
 import User from '../entities/User'
 import AppError from '../errors/AppError'
-import { UserType } from '../constants/UserType'
 
 interface RequestDTO {
     name: string

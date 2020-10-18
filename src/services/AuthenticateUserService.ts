@@ -32,8 +32,6 @@ class AuthenticateUserService {
             throw new AppError('User not found!', 401)
         }
 
-        console.log(userByUsername)
-
         let passwordMatched = false
 
         if (userByUsername.password)
@@ -45,8 +43,14 @@ class AuthenticateUserService {
 
         const { secret, expiresIn } = authConfig.jwt
 
+        delete userByUsername.password
+        delete userByUsername.created_at
+        delete userByUsername.updated_at
+        
+        userByUsername._id += ''
+
         const token = sign({ username }, secret, {
-            subject: userByUsername._id as string,
+            subject: userByUsername._id,
             expiresIn
         })
 

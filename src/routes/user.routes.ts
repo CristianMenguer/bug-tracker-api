@@ -5,10 +5,11 @@ import AppError from '../errors/AppError'
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import CreateUserService from '../services/CreateUserService'
+import { getAll } from '../models/user'
 
 const userRoutes = Router()
 
-//userRoutes.use(ensureAuthenticated)
+userRoutes.use(ensureAuthenticated)
 
 
 userRoutes.post('/', async (request: Request, response: Response) => {
@@ -36,10 +37,17 @@ userRoutes.post('/', async (request: Request, response: Response) => {
 })
 
 userRoutes.get('/', async (request: Request, response: Response) => {
-    return response.json({
-        message: 'User Get',
-        code: 201
-    })
+    
+    const users = await getAll()
+
+    for (const user of users) {
+        delete user.password
+        delete user.created_at
+        delete user.updated_at
+    }
+
+    return response.json(users)
+
 })
 
 export default userRoutes
