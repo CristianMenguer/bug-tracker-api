@@ -19,27 +19,34 @@ interface ResponseDTO {
 class AuthenticateUserService {
 
     public async execute({ username, password }: RequestDTO): Promise<ResponseDTO> {
-        
-        const usersByUsername: User[] = await getByUserName(username)
 
-        if (!usersByUsername || usersByUsername.length < 1) {
+        if (!username)
+            throw new AppError('Username is empty!', 401)
+
+        if (!password)
+            throw new AppError('Password is empty!', 401)
+
+        const userByUsername = { ...await getByUserName(username) }
+
+        if (!userByUsername) {
             throw new AppError('User not found!', 401)
         }
 
-        const userByUsername = usersByUsername[0]
-        
-        const passwordMatched = true//await compare(password, userByUsername.password)
+        console.log(userByUsername)
+
+        let passwordMatched = false
+
+        if (userByUsername.password)
+            passwordMatched = await compare(password, userByUsername.password)
 
         if (!passwordMatched) {
-            throw new AppError('Incorrect email/password combination!', 401)
+            throw new AppError('Incorrect username/password combination!', 401)
         }
-
-        
 
         const { secret, expiresIn } = authConfig.jwt
 
         const token = sign({ username }, secret, {
-            subject: userByUsername._id,
+            subject: userByUsername._id as string,
             expiresIn
         })
 

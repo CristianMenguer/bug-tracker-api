@@ -1,8 +1,9 @@
 import { Router, Request, Response } from 'express'
+import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 
 const projectRoutes = Router()
 
-//projectRoutes.use(ensureAuthenticated)
+projectRoutes.use(ensureAuthenticated)
 
 projectRoutes.post('/', async (request: Request, response: Response) => {
     return response.json({

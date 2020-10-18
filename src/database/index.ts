@@ -64,7 +64,7 @@ export const count = ((collectionName: string) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
-            collection.count({}, (err, docs) => {
+            collection.countDocuments({}, (err, docs) => {
                 resolve(docs)
                 client.close()
             })
