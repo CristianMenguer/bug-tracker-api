@@ -10,9 +10,9 @@ issueRoutes.use(ensureAuthenticated)
 
 issueRoutes.post('/', async (request: Request, response: Response) => {
     try {
-        const { title, description, project_id, number } = request.body
+        const { title, description, project_id } = request.body
 
-        if (!title || !description || !project_id || !number)
+        if (!title || !description || !project_id)
             throw new AppError('It is missing some parameters!')
 
         const createIssue = new CreateIssueService()
@@ -20,8 +20,7 @@ issueRoutes.post('/', async (request: Request, response: Response) => {
         const issue = await createIssue.execute({
             title,
             description,
-            project_id,
-            number
+            project_id
         })
 
         return response.json(issue)
@@ -37,8 +36,8 @@ issueRoutes.get('/', async (request: Request, response: Response) => {
     for (const issue of issues) {
         delete issue.created_at
         delete issue.updated_at
-        delete issue.project.updated_at
-        delete issue.project.created_at
+        delete issue.project?.updated_at
+        delete issue.project?.created_at
     }
 
     return response.json(issues)

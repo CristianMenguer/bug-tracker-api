@@ -6,7 +6,8 @@ class Issue {
     title: string
     description: string
     status: IssueStatus
-    project: Project
+    project?: Project
+    project_id?: string
     number: number
     created_at?: Date
     updated_at?: Date
@@ -16,13 +17,15 @@ class Issue {
         this.description = description
         this.status = IssueStatus.OPEN
         this.project = project
+        this.project_id = this.project?._id
+
         this.number = number
         this.created_at = new Date()
         this.updated_at = new Date()
     }
 
     issueNumber() {
-        return this.project.slug + '-' + this.number
+        return this.project?.slug + '-' + this.number
     }
 }
 

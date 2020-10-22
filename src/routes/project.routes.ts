@@ -15,6 +15,9 @@ projectRoutes.post('/', async (request: Request, response: Response) => {
         if (!slug || !name || !description)
             throw new AppError('It is missing some parameters!')
 
+        if (!/^[a-z]+$/.test(slug))
+            throw new AppError('Only lowercase letters are accepted in slug!')
+
         const createProject = new CreateProjectService()
 
         const project = await createProject.execute({
