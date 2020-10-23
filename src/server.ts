@@ -10,7 +10,7 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000
 
 const app = express()
 
-app.use(cors())
+//app.use(cors())
 
 app.use(express.json())
 
@@ -33,5 +33,5 @@ app.use(
 )
 
 app.listen(PORT, HOSTNAME, () => {
-    console.log('> Server started on port 3000 👌')
+    console.log(`> Server started on port ${PORT} 👌`)
 })
