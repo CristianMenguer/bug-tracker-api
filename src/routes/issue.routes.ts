@@ -49,13 +49,6 @@ issueRoutes.get('/:slugNumber', async (request: Request, response: Response) => 
     //
     const issues = await getBySlugNumber(slug, issueNumber)
 
-    for (const issue of issues) {
-        delete issue.created_at
-        delete issue.updated_at
-        delete issue.project?.updated_at
-        delete issue.project?.created_at
-    }
-
     return response.json(issues)
 })
 
