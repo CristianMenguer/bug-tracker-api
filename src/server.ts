@@ -4,7 +4,9 @@ import 'express-async-errors'
 import routes from './routes'
 import AppError from './errors/AppError'
 
-const PORT = 3000
+const HOSTNAME = '0.0.0.0'
+
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000
 
 const app = express()
 
@@ -30,6 +32,6 @@ app.use(
     }
 )
 
-app.listen(PORT, () => {
+app.listen(PORT, HOSTNAME, () => {
     console.log('> Server started on port 3000 👌')
 })
