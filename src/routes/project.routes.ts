@@ -3,6 +3,7 @@ import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import { getAll } from '../models/project'
 import CreateProjectService from '../services/CreateProjectService'
+import { isOnlyLetterLowerCase } from '../services/ValidateInputs'
 
 const projectRoutes = Router()
 
@@ -15,8 +16,8 @@ projectRoutes.post('/', async (request: Request, response: Response) => {
         if (!slug || !name || !description)
             throw new AppError('It is missing some parameters!')
 
-        if (!/^[a-z]+$/.test(slug))
-            throw new AppError('Only lowercase letters are accepted in slug!')
+        if (!isOnlyLetterLowerCase(slug))
+            throw new AppError('Only lowercase letters are accepted to slug!')
 
         const createProject = new CreateProjectService()
 

@@ -2,7 +2,7 @@ import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
 import User from '../entities/User'
-import { getByUserName } from '../models/user'
+import { getByUsername } from '../models/user'
 import authConfig from '../config/auth'
 import AppError from '../errors/AppError'
 
@@ -26,7 +26,7 @@ class AuthenticateUserService {
         if (!password)
             throw new AppError('Password is empty!', 401)
 
-        const userByUsername = { ...await getByUserName(username) }
+        const userByUsername = { ...await getByUsername(username) }
 
         if (!userByUsername) {
             throw new AppError('User not found!', 401)

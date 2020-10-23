@@ -21,9 +21,9 @@ routes.get('/', (request: Request, response: Response) => {
 })
 
 routes.get('*', (request: Request, response: Response) => {
-    return response.json({
+    return response.status(404).json({
         message: 'Welcome to Cristian Menguer - 2020087 API 👍🏼',
-        error: 'Route not found!'
+        error: 'Route not found! Check your URL/Request!'
     })
 })
 

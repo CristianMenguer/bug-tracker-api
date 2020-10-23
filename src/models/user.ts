@@ -8,7 +8,7 @@ export const createNewUser = async (user: User): Promise<User> => {
     return results.ops[0]
 }
 
-export const getByUserName = async (username: string): Promise<User> => {
+export const getByUsername = async (username: string): Promise<User> => {
 
     if (!username)
         return new Promise<User>((resolve) => resolve())

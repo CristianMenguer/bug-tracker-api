@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs'
 
-import { getByEmail, getByUserName, createNewUser } from '../models/user'
+import { getByEmail, getByUsername, createNewUser } from '../models/user'
 import User from '../entities/User'
 import AppError from '../errors/AppError'
 
@@ -15,7 +15,7 @@ interface RequestDTO {
 class CreateUserService {
     public async execute({ name, username, email, password, usertype }: RequestDTO): Promise<User> {
         
-        let userFromDb = await getByUserName(username)
+        let userFromDb = await getByUsername(username)
 
         if (userFromDb) {
             throw new AppError('Username has already been registered!')
