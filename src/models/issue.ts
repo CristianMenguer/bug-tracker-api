@@ -19,6 +19,8 @@ const LOOKUP_PIPELINE = [
             description: 1,
             status: 1,
             number: 1,
+            created_at: 1,
+            updated_at: 1,
             project: {
                 $arrayElemAt: ['$project', 0]
             }

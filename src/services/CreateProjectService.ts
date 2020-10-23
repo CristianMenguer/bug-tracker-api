@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs'
 
-import { getBySlug, getByName, createNewProject } from '../models/project'
+import { getProjects, createNewProject } from '../models/project'
 import Project from '../entities/Project'
 import AppError from '../errors/AppError'
 
@@ -13,13 +13,13 @@ interface RequestDTO {
 class CreateProjectService {
     public async execute({ slug, name, description }: RequestDTO): Promise<Project> {
         
-        let projectFromDb = await getBySlug(slug)
+        let projectFromDb = await getProjects({ slug })
 
         if (projectFromDb) {
             throw new AppError('Slug has already been registered!')
         }
 
-        projectFromDb = await getByName(name)
+        projectFromDb = await getProjects({ name })
 
         if (projectFromDb) {
             throw new AppError('Name has already been registered!')
@@ -30,9 +30,6 @@ class CreateProjectService {
             name,
             description
         ))
-
-        delete project.created_at
-        delete project.updated_at
 
         return project
     }
