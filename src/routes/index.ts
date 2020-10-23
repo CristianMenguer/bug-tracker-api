@@ -20,4 +20,11 @@ routes.get('/', (request: Request, response: Response) => {
     })
 })
 
+routes.get('*', (request: Request, response: Response) => {
+    return response.json({
+        message: 'Welcome to Cristian Menguer - 2020087 API 👍🏼',
+        error: 'Route not found!'
+    })
+})
+
 export default routes
