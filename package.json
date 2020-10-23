@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build-ts": "tsc",
-    "postinstall": "npm run tsc",
+    "postinstall": "npm run build-ts",
     "dev": "nodemon",
     "dev:server": "MONGO_DB_NAME='book-store' MONGO_URI='mongodb+srv://cris:cris@cluster0.pp4u2.mongodb.net/?retryWrites=true&w=majority' ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts"
   },
@@ -27,8 +27,5 @@
     "@types/mongodb": "^3.5.27",
     "nodemon": "^2.0.5",
     "ts-node-dev": "^1.0.0-pre.65"
-  },
-  "engines": {
-    "node": "12.18.2"
   }
 }
