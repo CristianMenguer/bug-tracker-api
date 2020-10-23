@@ -11,13 +11,13 @@ export const info = () => {
     console.log('db_name: ' + DB_NAME)
 }
 
-export const aggregate = (collectionName: string, pipeline = []) => {
+export const aggregate = (collectionName: string, pipeline = [], query = {}) => {
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
 
-            collection.aggregate(pipeline).toArray((err, docs) => {
+            collection.aggregate(pipeline).match(query).toArray((err, docs) => {
                 if (err) {
                     console.log(' --- aggregate ERROR --- ')
                     console.log(err)
@@ -30,8 +30,8 @@ export const aggregate = (collectionName: string, pipeline = []) => {
     })
 }
 
-export const get = (collectionName: string, query = {}) : Promise<Object[]> => {
-    
+export const get = (collectionName: string, query = {}, fields = {}): Promise<Object[]> => {
+
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
             if (err)
@@ -39,7 +39,10 @@ export const get = (collectionName: string, query = {}) : Promise<Object[]> => {
             //
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
-            collection.find(query).toArray((err, docs) => {
+            collection.find(query, fields).toArray((err, docs) => {
+                if (err)
+                    console.error('An error occurred getting data from MongoDB: ', err)
+                //
                 resolve(docs)
                 client.close()
             })

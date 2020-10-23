@@ -1,13 +1,10 @@
 import { Router, Request, Response } from 'express'
-import { UserType } from '../constants/UserType'
-import User from '../entities/User'
 import AppError from '../errors/AppError'
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import CreateUserService from '../services/CreateUserService'
-import { getAll, getByEmail, getByUsername } from '../models/user'
+import { getUsers } from '../models/user'
 import { isOnlyLetterLowerCase, isValidEmail } from '../services/ValidateInputs'
-import { get } from '../database'
 
 const userRoutes = Router()
 
@@ -47,8 +44,8 @@ userRoutes.post('/', async (request: Request, response: Response) => {
 
 userRoutes.get('/', async (request: Request, response: Response) => {
 
-    const users = await getAll()
-
+    const users = await getUsers()
+    
     for (const user of users)
         delete user.password
 
@@ -60,19 +57,21 @@ userRoutes.get('/:input', async (request: Request, response: Response) => {
 
     const { input } = request.params
 
-    let user
+    let users
 
     if (isValidEmail(input))
-        user = await getByEmail(input)
+        users = await getUsers({ email: input })
     else
         if (isOnlyLetterLowerCase(input))
-            user = await getByUsername(input)
+            users = await getUsers({ username: input })
         else
             throw new AppError('Invalid Param!')
     //
-    if (!user)
+    if (!users.length)
         throw new AppError('User not found!', 404)
     //
+
+    const user = users[0]
     delete user.password
 
     return response.json(user)

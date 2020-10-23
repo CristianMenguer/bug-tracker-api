@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs'
 
-import { getByEmail, getByUsername, createNewUser } from '../models/user'
+import { createNewUser, getUsers } from '../models/user'
 import User from '../entities/User'
 import AppError from '../errors/AppError'
 
@@ -15,17 +15,19 @@ interface RequestDTO {
 class CreateUserService {
     public async execute({ name, username, email, password, usertype }: RequestDTO): Promise<User> {
         
-        let userFromDb = await getByUsername(username)
+        const users = await getUsers({
+            $or: [
+                {
+                    username
+                },
+                {
+                    email
+                }
+            ]
+        })
 
-        if (userFromDb) {
-            throw new AppError('Username has already been registered!')
-        }
-
-        userFromDb = await getByEmail(email)
-
-        if (userFromDb) {
-            throw new AppError('Email has already been registered!')
-        }
+        if (users.length)
+            throw new AppError('Username or email has already been registered!')
 
         const hashedPassword = await hash(password, 8)
 

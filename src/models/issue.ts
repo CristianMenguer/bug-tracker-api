@@ -7,7 +7,7 @@ const LOOKUP_PROJECT_PIPELINE = [
     {
         $lookup: {
             from: 'project',
-            localField: 'project_id', 
+            localField: 'project_id',
             foreignField: '_id',
             as: 'project',
         }
@@ -28,7 +28,7 @@ const LOOKUP_PROJECT_PIPELINE = [
 
 export const createNewIssue = async (issue: Issue): Promise<Issue> => {
     delete issue.project
-    
+
     const results = await db.add(COLLECTION, issue) as IssueResponseInsert
     return results.ops[0]
 }
@@ -66,5 +66,29 @@ export const getByProject = async (project: Project): Promise<Issue[]> => {
 
     const issues = await db.get(COLLECTION, { project_id: project._id }) as Issue[]
 
+    return issues
+}
+
+export const getByProjectSlug = async (slug: string) => {
+    const LOOKUP_SLUG = [...LOOKUP_PROJECT_PIPELINE, {
+        $match: {
+            'project.slug': slug
+        }
+    }]
+    //
+    // @ts-ignore
+    const issues = await db.aggregate(COLLECTION, LOOKUP_SLUG) as Issue[]
+    return issues
+}
+
+export const getBySlugNumber = async (slug: string, number: string) => {
+    const LOOKUP_SLUG = [...LOOKUP_PROJECT_PIPELINE, {
+        $match: {
+            'project.slug': slug,
+            number: parseInt(number)
+        }
+    }]
+    // @ts-ignore
+    const issues = await db.aggregate(COLLECTION, LOOKUP_SLUG) as Issue[]
     return issues
 }

@@ -9,9 +9,9 @@ import { info } from '../database'
 
 const routes = Router()
 
-routes.use('/project', projectRoutes)
-routes.use('/user', userRoutes)
-routes.use('/issue', issueRoutes)
+routes.use('/projects', projectRoutes)
+routes.use('/users', userRoutes)
+routes.use('/issues', issueRoutes)
 routes.use('/session', sessionRoutes)
 
 routes.get('/', (request: Request, response: Response) => {

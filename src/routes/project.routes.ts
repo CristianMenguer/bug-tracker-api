@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express'
+import Project from '../entities/Project'
 import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
-import { getAll } from '../models/project'
+import { getAll, getBySlug } from '../models/project'
 import CreateProjectService from '../services/CreateProjectService'
 import { isOnlyLetterLowerCase } from '../services/ValidateInputs'
 
@@ -31,6 +32,19 @@ projectRoutes.post('/', async (request: Request, response: Response) => {
     } catch (err) {
         return response.status(409).json({ error: err.message })
     }
+})
+
+projectRoutes.get('/:slug/issues', async (request: Request, response: Response) => {
+    const { slug } = request.params
+
+    const project = await getBySlug(slug)
+    //
+    // console.log(project.issues)
+    // if (!project.issues)
+    //     throw new AppError('No project or issue found!', 404)
+    //
+    return response.json(project.issues)
+    //
 })
 
 projectRoutes.get('/', async (request: Request, response: Response) => {

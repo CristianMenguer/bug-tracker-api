@@ -8,30 +8,9 @@ export const createNewUser = async (user: User): Promise<User> => {
     return results.ops[0]
 }
 
-export const getByUsername = async (username: string): Promise<User> => {
+export const getUsers = async (query = {}, fields = {}): Promise<User[]> => {
 
-    if (!username)
-        return new Promise<User>((resolve) => resolve())
-
-    const users = await db.get(COLLECTION, { username }) as User[]
-
-    return users[0]
-}
-
-export const getByEmail = async (email: string): Promise<User> => {
-
-    if (!email)
-        return new Promise<User>((resolve) => resolve())
-
-    const users = await db.get(COLLECTION, { email }) as User[]
-
-    return users[0]
-
-}
-
-export const getAll = async (): Promise<User[]> => {
-
-    const users = await db.get(COLLECTION) as User[]
+    const users = await db.get(COLLECTION, query, fields) as User[]
 
     return users
 
