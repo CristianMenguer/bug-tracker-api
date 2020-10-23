@@ -32,7 +32,6 @@ export const aggregate = (collectionName: string, pipeline = [], query = {}) => 
 
 export const get = (collectionName: string, query = {}, fields = {}): Promise<Object[]> => {
 
-    info()
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
             if (err)

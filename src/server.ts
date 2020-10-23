@@ -33,5 +33,5 @@ app.use(
 )
 
 app.listen(PORT, HOSTNAME, () => {
-    console.log(`> Server started on port ${PORT} 👌`)
+    console.log(`> Server started on ${HOSTNAME}:${PORT} 👌`)
 })
