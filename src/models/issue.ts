@@ -44,6 +44,7 @@ export const getAll = async (): Promise<Issue[]> => {
 }
 
 export const aggregateWithProject = async () => {
+    // @ts-ignore
     const issues = await db.aggregate(COLLECTION, LOOKUP_PROJECT_PIPELINE) as Issue[]
     return issues
 }
