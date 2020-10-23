@@ -5,6 +5,9 @@ yarn.lock
 node_modules
 npm-debug.log
 
+# dist
+dist
+
 # Local development
 *.env
 *.dev
