@@ -44,6 +44,6 @@ export const getComments = async (): Promise<Comment[]> => {
 
 export const aggregateWithIssue = async () => {
     // @ts-ignore
-    const issues = await db.aggregate(COLLECTION, LOOKUP_PROJECT_PIPELINE) as Comment[]
+    const issues = await db.aggregate(COLLECTION, LOOKUP_ISSUE_PIPELINE) as Comment[]
     return issues
 }

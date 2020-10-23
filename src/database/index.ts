@@ -62,6 +62,21 @@ export const add = (collectionName: string, item: object) => {
     })
 }
 
+export const update = (collectionName: string, filter = {}, update = {}) => {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
+            const db = client.db(DB_NAME)
+            const collection = db.collection(collectionName)
+            collection.findOneAndUpdate(filter, update, {returnOriginal: false}, (err, result) => {
+                if (err) 
+                    reject(err)
+                //
+                resolve(result.value)
+            })
+        })
+    })
+}
+
 export const count = ((collectionName: string) => {
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {

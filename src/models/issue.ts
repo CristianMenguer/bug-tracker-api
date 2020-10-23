@@ -1,9 +1,10 @@
+import { IssueStatus } from '../constants/IssueStatus'
 import * as db from '../database'
 import Issue from '../entities/Issue'
 import Project from '../entities/Project'
 
 const COLLECTION = 'issue'
-const LOOKUP_PROJECT_PIPELINE = [
+const LOOKUP_PIPELINE = [
     {
         $lookup: {
             from: 'project',
@@ -18,13 +19,30 @@ const LOOKUP_PROJECT_PIPELINE = [
             description: 1,
             status: 1,
             number: 1,
-            project_id: 1,
             project: {
                 $arrayElemAt: ['$project', 0]
             }
         }
+    },
+    {
+        $lookup: {
+            from: 'comment',
+            localField: '_id', 
+            foreignField: 'issue_id',
+            as: 'comments',
+        }
     }
 ]
+
+export const updateIssueStatus = async (issue_id: string, newStatus: IssueStatus): Promise<Issue> => {
+
+    const filter = { _id: issue_id }
+    const update = { $set: { status: newStatus, updated_at: new Date() }}
+
+    const result = await db.update(COLLECTION, filter, update) as Issue
+    
+    return result
+}
 
 export const createNewIssue = async (issue: Issue): Promise<Issue> => {
     delete issue.project
@@ -33,19 +51,10 @@ export const createNewIssue = async (issue: Issue): Promise<Issue> => {
     return results.ops[0]
 }
 
-export const getAll = async (): Promise<Issue[]> => {
+export const getIssues = async (query = {}): Promise<Issue[]> => {
 
-    // const issues = await db.get(COLLECTION) as Issue[]
-
-    const issues = await aggregateWithProject()
-
-    return issues
-
-}
-
-export const aggregateWithProject = async () => {
     // @ts-ignore
-    const issues = await db.aggregate(COLLECTION, LOOKUP_PROJECT_PIPELINE) as Issue[]
+    const issues = await db.aggregate(COLLECTION, LOOKUP_PIPELINE, query) as Issue[]
     return issues
 }
 
@@ -70,7 +79,7 @@ export const getByProject = async (project: Project): Promise<Issue[]> => {
 }
 
 export const getByProjectSlug = async (slug: string) => {
-    const LOOKUP_SLUG = [...LOOKUP_PROJECT_PIPELINE, {
+    const LOOKUP_SLUG = [...LOOKUP_PIPELINE, {
         $match: {
             'project.slug': slug
         }
@@ -82,7 +91,7 @@ export const getByProjectSlug = async (slug: string) => {
 }
 
 export const getBySlugNumber = async (slug: string, number: string) => {
-    const LOOKUP_SLUG = [...LOOKUP_PROJECT_PIPELINE, {
+    const LOOKUP_SLUG = [...LOOKUP_PIPELINE, {
         $match: {
             'project.slug': slug,
             number: parseInt(number)

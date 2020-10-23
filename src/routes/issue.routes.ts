@@ -1,9 +1,11 @@
 import { Router, Request, Response } from 'express'
+import { IssueStatus } from '../constants/IssueStatus'
 import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
-import { getAll, getByProjectSlug, getBySlugNumber } from '../models/issue'
+import { getIssues, getByProjectSlug, getBySlugNumber } from '../models/issue'
 import CreateIssueService from '../services/CreateIssueService'
-import { isNumber } from '../services/ValidateInputs'
+import UpdateIssueStatusService from '../services/UpdateIssueStatusService'
+import { isIssueType, isNumber } from '../services/ValidateInputs'
 
 const issueRoutes = Router()
 
@@ -58,16 +60,38 @@ issueRoutes.get('/:slugNumber', async (request: Request, response: Response) => 
 })
 
 issueRoutes.get('/', async (request: Request, response: Response) => {
-    const issues = await getAll()
-
-    for (const issue of issues) {
-        delete issue.created_at
-        delete issue.updated_at
-        delete issue.project?.updated_at
-        delete issue.project?.created_at
-    }
+    const issues = await getIssues()
 
     return response.json(issues)
+})
+
+issueRoutes.put('/:slugNumber/:newStatus', async (request: Request, response: Response) => {
+    
+    const { slugNumber, newStatus } = request.params
+
+    const splitString = slugNumber.split('-')
+    //
+    if (splitString.length != 2)
+        throw new AppError('Format slug-number not found!')
+    //
+    const [ slug, issueNumber ] = splitString
+    //
+    if (!isNumber(issueNumber))
+        throw new AppError('Format slug-number not found!')
+    //
+    if (!isIssueType(newStatus))
+        throw new AppError('Invalid new status!')
+    //
+    const issues = await getBySlugNumber(slug, issueNumber)
+    const issue = issues[0]
+    //
+    const updateIssueStatus = new UpdateIssueStatusService()
+    const updatedIssue = await updateIssueStatus.execute({
+        issue,
+        newStatus: newStatus as IssueStatus
+    })
+    //
+    return response.json(updatedIssue)
 })
 
 export default issueRoutes

@@ -3,6 +3,7 @@ import { Router, Request, Response } from 'express'
 import projectRoutes from './project.routes'
 import issueRoutes from './issue.routes'
 import userRoutes from './user.routes'
+import commentRoutes from './comment.routes'
 import sessionRoutes from './session.routes'
 
 import { info } from '../database'
@@ -12,6 +13,7 @@ const routes = Router()
 routes.use('/projects', projectRoutes)
 routes.use('/users', userRoutes)
 routes.use('/issues', issueRoutes)
+routes.use('/comments', commentRoutes)
 routes.use('/session', sessionRoutes)
 
 routes.get('/', (request: Request, response: Response) => {

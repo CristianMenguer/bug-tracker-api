@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express'
 import Project from '../entities/Project'
 import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
-import { getAll, getBySlug } from '../models/project'
+import { getProjects } from '../models/project'
 import CreateProjectService from '../services/CreateProjectService'
 import { isOnlyLetterLowerCase } from '../services/ValidateInputs'
 
@@ -37,18 +37,18 @@ projectRoutes.post('/', async (request: Request, response: Response) => {
 projectRoutes.get('/:slug/issues', async (request: Request, response: Response) => {
     const { slug } = request.params
 
-    const project = await getBySlug(slug)
-    //
-    // console.log(project.issues)
-    // if (!project.issues)
-    //     throw new AppError('No project or issue found!', 404)
-    //
+    const projects = await getProjects({ slug })
+
+    if (!projects.length)
+        throw new AppError('Project not found!', 404)
+
+    const project = projects[0]
     return response.json(project.issues)
     //
 })
 
 projectRoutes.get('/', async (request: Request, response: Response) => {
-    const projects = await getAll()
+    const projects = await getProjects()
 
     for (const project of projects) {
         delete project.created_at

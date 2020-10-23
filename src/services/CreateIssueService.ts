@@ -1,6 +1,6 @@
 import { hash } from 'bcryptjs'
 
-import { getByTitleProject, createNewIssue, getByProject } from '../models/issue'
+import { getIssues, createNewIssue } from '../models/issue'
 import { getById } from '../models/project'
 import Issue from '../entities/Issue'
 import AppError from '../errors/AppError'
@@ -19,12 +19,12 @@ class CreateIssueService {
         if (!projectById) 
             throw new AppError('Project not found!')
 
-        const issueFromDb = await getByTitleProject(title, projectById)
+        const issuesFromDb = await getIssues({ project_id: projectById._id })
         
-        if (issueFromDb) 
+        if (issuesFromDb.filter(issue => issue.title == title) .length > 0)
             throw new AppError('Issue has already been registered!')
         
-        const issueNumber = (await getByProject(projectById)).length
+        const issueNumber = issuesFromDb.length
 
         const issue = await createNewIssue(new Issue (
             title,
