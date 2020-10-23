@@ -9,6 +9,7 @@ class Issue {
     project?: Project
     project_id?: string
     number: number
+    comments?: Comment[]
     created_at?: Date
     updated_at?: Date
 
