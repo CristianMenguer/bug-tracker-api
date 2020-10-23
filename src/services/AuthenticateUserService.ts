@@ -28,6 +28,9 @@ class AuthenticateUserService {
 
         const users = await getUsers({ username })
 
+        console.log('users')
+        console.log(users)
+
         if (users.length < 1) {
             throw new AppError('User not found!', 401)
         }
