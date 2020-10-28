@@ -45,9 +45,6 @@ userRoutes.post('/', async (request: Request, response: Response) => {
 userRoutes.get('/', async (request: Request, response: Response) => {
 
     const users = await getUsers()
-    
-    for (const user of users)
-        delete user.password
 
     return response.json(users)
 
@@ -72,7 +69,6 @@ userRoutes.get('/:input', async (request: Request, response: Response) => {
     //
 
     const user = users[0]
-    delete user.password
 
     return response.json(user)
 

@@ -23,6 +23,9 @@ const LOOKUP_PIPELINE = [
             updated_at: 1,
             project: {
                 $arrayElemAt: ['$project', 0]
+            },
+            comments: {
+                $arrayElemAt: ['$comments', 0]
             }
         }
     },

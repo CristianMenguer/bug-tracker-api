@@ -13,10 +13,10 @@ class Issue {
     created_at?: Date
     updated_at?: Date
 
-    constructor(title: string, description: string, project: Project, number: number) {
+    constructor(title: string, description: string, project: Project, number: number, status: IssueStatus = IssueStatus.OPEN) {
         this.title = title
         this.description = description
-        this.status = IssueStatus.OPEN
+        this.status = status
         this.project = project
         this.project_id = this.project?._id
 

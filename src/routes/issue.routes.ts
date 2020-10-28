@@ -2,7 +2,8 @@ import { Router, Request, Response } from 'express'
 import { IssueStatus } from '../constants/IssueStatus'
 import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
-import { getIssues, getByProjectSlug, getBySlugNumber } from '../models/issue'
+import { getIssues, getBySlugNumber } from '../models/issue'
+import { getProjects } from '../models/project'
 import CreateIssueService from '../services/CreateIssueService'
 import UpdateIssueStatusService from '../services/UpdateIssueStatusService'
 import { isIssueType, isNumber } from '../services/ValidateInputs'
@@ -11,19 +12,33 @@ const issueRoutes = Router()
 
 issueRoutes.use(ensureAuthenticated)
 
-issueRoutes.post('/', async (request: Request, response: Response) => {
+issueRoutes.post('/:slug', async (request: Request, response: Response) => {
     try {
-        const { title, description, project_id } = request.body
 
-        if (!title || !description || !project_id)
+        const { slug } = request.params
+
+        const { title, description, status } = request.body
+
+        if (!title || !description || !status)
             throw new AppError('It is missing some parameters!')
+        
+        if (!isIssueType(status))
+            throw new AppError('Invalid status!')
+
+        const projects = await getProjects({ slug })
+
+        if (!projects.length)
+            throw new AppError('Project not found!', 404)
+        
+        const project = projects[0]
 
         const createIssue = new CreateIssueService()
 
         const issue = await createIssue.execute({
             title,
             description,
-            project_id
+            status,
+            project
         })
 
         return response.json(issue)
@@ -42,24 +57,27 @@ issueRoutes.get('/:slugNumber', async (request: Request, response: Response) => 
     if (splitString.length != 2)
         throw new AppError('Format slug-number not found!')
     //
-    const [ slug, issueNumber ] = splitString
+    const [slug, issueNumber] = splitString
     //
     if (!isNumber(issueNumber))
         throw new AppError('Format slug-number not found!')
     //
     const issues = await getBySlugNumber(slug, issueNumber)
 
+    if (!issues.length)
+        throw new AppError('Issue not found!', 404)
+
     return response.json(issues)
 })
 
 issueRoutes.get('/', async (request: Request, response: Response) => {
-    const issues = await getIssues()
+    const issues = await getIssues({})
 
     return response.json(issues)
 })
 
 issueRoutes.put('/:slugNumber/:newStatus', async (request: Request, response: Response) => {
-    
+
     const { slugNumber, newStatus } = request.params
 
     const splitString = slugNumber.split('-')
@@ -67,7 +85,7 @@ issueRoutes.put('/:slugNumber/:newStatus', async (request: Request, response: Re
     if (splitString.length != 2)
         throw new AppError('Format slug-number not found!')
     //
-    const [ slug, issueNumber ] = splitString
+    const [slug, issueNumber] = splitString
     //
     if (!isNumber(issueNumber))
         throw new AppError('Format slug-number not found!')

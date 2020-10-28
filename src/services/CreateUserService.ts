@@ -38,8 +38,6 @@ class CreateUserService {
             hashedPassword,
             usertype
         ))
-
-        delete user.password
         
         return user
     }

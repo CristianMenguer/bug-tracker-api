@@ -12,8 +12,14 @@ export const info = () => {
 }
 
 export const aggregate = (collectionName: string, pipeline = [], query = {}) => {
+    
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
+            if (err) {
+                console.log(' --- aggregate ERROR --- ')
+                console.log(err)
+            }
+
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
 
@@ -22,7 +28,6 @@ export const aggregate = (collectionName: string, pipeline = [], query = {}) => 
                     console.log(' --- aggregate ERROR --- ')
                     console.log(err)
                 }
-
                 resolve(docs)
                 client.close()
             })

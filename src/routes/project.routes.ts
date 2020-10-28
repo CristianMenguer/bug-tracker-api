@@ -38,22 +38,30 @@ projectRoutes.get('/:slug/issues', async (request: Request, response: Response) 
     const { slug } = request.params
 
     const projects = await getProjects({ slug })
-
-    if (!projects.length)
-        throw new AppError('Project not found!', 404)
+    
+    if (!projects.length || !projects[0].issues || !projects[0].issues.length)
+        throw new AppError('Project/issue not found!', 404)
 
     const project = projects[0]
     return response.json(project.issues)
     //
 })
 
+projectRoutes.get('/:slug', async (request: Request, response: Response) => {
+    const { slug } = request.params
+
+    const projects = await getProjects({ slug })
+
+    if (!projects.length)
+        throw new AppError('Project not found!', 404)
+
+    const project = projects[0]
+    return response.json(project)
+    //
+})
+
 projectRoutes.get('/', async (request: Request, response: Response) => {
     const projects = await getProjects()
-
-    for (const project of projects) {
-        delete project.created_at
-        delete project.updated_at
-    }
 
     return response.json(projects)
 })

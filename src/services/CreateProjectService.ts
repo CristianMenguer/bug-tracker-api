@@ -15,13 +15,13 @@ class CreateProjectService {
         
         let projectFromDb = await getProjects({ slug })
 
-        if (projectFromDb) {
+        if (projectFromDb.length) {
             throw new AppError('Slug has already been registered!')
         }
 
         projectFromDb = await getProjects({ name })
 
-        if (projectFromDb) {
+        if (projectFromDb.length) {
             throw new AppError('Name has already been registered!')
         }
 
