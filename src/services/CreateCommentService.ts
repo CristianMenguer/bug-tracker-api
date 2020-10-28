@@ -23,7 +23,7 @@ class CreateCommentService {
         const comment = await createNewComment(new Comment (
             title,
             text,
-            issue,
+            issue._id,
             user_id,
             commentNumber + 1
         ))

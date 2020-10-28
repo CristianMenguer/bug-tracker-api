@@ -6,6 +6,9 @@ import { isNumber, isOnlyLetterLowerCase, isValidEmail } from '../services/Valid
 import { getUsers } from '../models/user'
 import { getBySlugNumber } from '../models/issue'
 import CreateCommentService from '../services/CreateCommentService'
+import { ObjectId } from 'mongodb'
+import User from '../entities/User'
+import { createModuleResolutionCache } from 'typescript'
 
 const commentRoutes = Router()
 
@@ -27,7 +30,7 @@ commentRoutes.get('/:input', async (request: Request, response: Response) => {
 
     const { input } = request.params
 
-    let users
+    let users: User[]
 
     if (isValidEmail(input))
         users = await getUsers({ email: input })
@@ -42,8 +45,8 @@ commentRoutes.get('/:input', async (request: Request, response: Response) => {
     //
 
     const user = users[0]
-
-    const comments = await getComments({ user_id: user._id })
+    
+    const comments = await getComments({ user_id: user._id?.toString() })
 
     if (!comments.length)
         throw new AppError('This user has not commented yet!', 404)

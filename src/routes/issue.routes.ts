@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { IssueStatus } from '../constants/IssueStatus'
+import Project from '../entities/Project'
 import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import { getIssues, getBySlugNumber } from '../models/issue'
@@ -19,13 +20,13 @@ issueRoutes.post('/:slug', async (request: Request, response: Response) => {
 
         const { title, description, status } = request.body
 
-        if (!title || !description || !status)
+        if (!title || !description || !status || !slug)
             throw new AppError('It is missing some parameters!')
 
         if (!isIssueType(status))
             throw new AppError('Invalid status!')
 
-        const projects = await getProjects({ slug })
+        const projects: Project[] = await getProjects({ slug })
 
         if (!projects.length)
             throw new AppError('Project not found!', 404)

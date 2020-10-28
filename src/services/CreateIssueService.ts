@@ -6,6 +6,7 @@ import Issue from '../entities/Issue'
 import AppError from '../errors/AppError'
 import Project from '../entities/Project'
 import { IssueStatus } from '../constants/IssueStatus'
+import { ObjectID, ObjectId } from 'mongodb'
 
 interface RequestDTO {
     title: string
@@ -19,7 +20,7 @@ class CreateIssueService {
         
         const issuesFromDb = await getIssues({ project_id: project._id })
         
-        if (issuesFromDb.filter(issue => issue.title == title) .length > 0)
+        if (issuesFromDb.filter(issue => issue.title == title).length > 0)
             throw new AppError('Issue has already been registered!')
         
         const issueNumber = issuesFromDb.length

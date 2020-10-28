@@ -44,10 +44,6 @@ class AuthenticateUserService {
         }
 
         const { secret, expiresIn } = authConfig.jwt
-
-        delete userByUsername.password
-        delete userByUsername.created_at
-        delete userByUsername.updated_at
         
         userByUsername._id += ''
 

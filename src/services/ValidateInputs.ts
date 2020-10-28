@@ -10,6 +10,11 @@ export const isOnlyLetterLowerCase = (input: string): boolean => {
     return format.test(input)
 }
 
+export const isOnlyLetterUpperCase = (input: string): boolean => {
+    const format = /^[A-Z]+$/
+    return format.test(input)
+}
+
 export const isNumber = (input: string): boolean => {
     const format = /^[0-9]+$/
     return format.test(input)

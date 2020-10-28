@@ -62,6 +62,7 @@ export const add = (collectionName: string, item: object) => {
             const collection = db.collection(collectionName)
             collection.insertOne(item, (err, result) => {
                 resolve(result)
+                client.close()
             })
         })
     })
@@ -77,6 +78,7 @@ export const update = (collectionName: string, filter = {}, update = {}) => {
                     reject(err)
                 //
                 resolve(result.value)
+                client.close()
             })
         })
     })
