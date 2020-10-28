@@ -67,6 +67,8 @@ projectRoutes.get('/:slug', async (request: Request, response: Response) => {
 projectRoutes.get('/', async (request: Request, response: Response) => {
     const projects = await getProjects()
 
+    console.log(projects.length)
+
     if (!projects.length)
         throw new AppError('No project found!', 404)
 
