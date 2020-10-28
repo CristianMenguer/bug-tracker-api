@@ -25,25 +25,23 @@ const LOOKUP_ISSUE_PIPELINE = [
     }
 ]
 
-export const createNewComment = async (issue: Comment): Promise<Comment> => {
-    // delete issue.issue
-
-    const results = await db.add(COLLECTION, issue) as IssueResponseInsert
+export const createNewComment = async (comment: Comment): Promise<Comment> => {
+    const results = await db.add(COLLECTION, comment) as IssueResponseInsert
     return results.ops[0]
 }
 
-export const getComments = async (): Promise<Comment[]> => {
+export const getComments = async (query = {}): Promise<Comment[]> => {
 
     // const issues = await db.get(COLLECTION) as Comment[]
 
-    const issues = await aggregateWithIssue()
+    const issues = await aggregateWithIssue(query)
 
     return issues
 
 }
 
-export const aggregateWithIssue = async () => {
+export const aggregateWithIssue = async (query = {}) => {
     // @ts-ignore
-    const issues = await db.aggregate(COLLECTION, LOOKUP_ISSUE_PIPELINE) as Comment[]
+    const issues = await db.aggregate(COLLECTION, LOOKUP_ISSUE_PIPELINE, query) as Comment[]
     return issues
 }

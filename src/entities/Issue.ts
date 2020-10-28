@@ -1,5 +1,6 @@
 import { IssueStatus } from "../constants/IssueStatus"
 import Project from "./Project"
+import Comment from "./Comment"
 
 class Issue {
     _id?: string

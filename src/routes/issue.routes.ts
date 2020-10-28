@@ -21,7 +21,7 @@ issueRoutes.post('/:slug', async (request: Request, response: Response) => {
 
         if (!title || !description || !status)
             throw new AppError('It is missing some parameters!')
-        
+
         if (!isIssueType(status))
             throw new AppError('Invalid status!')
 
@@ -29,7 +29,7 @@ issueRoutes.post('/:slug', async (request: Request, response: Response) => {
 
         if (!projects.length)
             throw new AppError('Project not found!', 404)
-        
+
         const project = projects[0]
 
         const createIssue = new CreateIssueService()
@@ -70,8 +70,73 @@ issueRoutes.get('/:slugNumber', async (request: Request, response: Response) => 
     return response.json(issues)
 })
 
+issueRoutes.get('/:slugNumber/comments', async (request: Request, response: Response) => {
+
+    const { slugNumber } = request.params
+
+    const splitString = slugNumber.split('-')
+    //
+    if (splitString.length != 2)
+        throw new AppError('Format slug-number not found!')
+    //
+    const [slug, issueNumber] = splitString
+    //
+    if (!isNumber(issueNumber))
+        throw new AppError('Format slug-number not found!')
+    //
+    const issues = await getBySlugNumber(slug, issueNumber)
+
+    if (!issues.length)
+        throw new AppError('Issue not found!', 404)
+
+    const issue = issues[0]
+
+    if (!issue.comments || !issue.comments.length)
+        throw new AppError('Issue has no comment!', 404)
+
+    return response.json(issue.comments)
+})
+
+issueRoutes.get('/:slugNumber/comments/:commentNumber', async (request: Request, response: Response) => {
+
+    const { slugNumber, commentNumber } = request.params
+
+    const splitString = slugNumber.split('-')
+    //
+    if (splitString.length != 2)
+        throw new AppError('Format slug-number not found!')
+    //
+    const [slug, issueNumber] = splitString
+    //
+    if (!isNumber(issueNumber))
+        throw new AppError('Format slug-number not found!')
+    //
+    if (!isNumber(commentNumber))
+        throw new AppError('Comment number not found or invalid!')
+    //
+    const issues = await getBySlugNumber(slug, issueNumber)
+
+    if (!issues.length)
+        throw new AppError('Issue not found!', 404)
+
+    const issue = issues[0]
+
+    if (!issue.comments || !issue.comments.length)
+        throw new AppError('Issue has no comment!', 404)
+    //
+    const comments = issue.comments.filter(comment => comment.number == parseInt(commentNumber))
+    //
+    if (!comments || !comments.length)
+        throw new AppError('No comments found!', 404)
+    //
+    return response.json(comments)
+})
+
 issueRoutes.get('/', async (request: Request, response: Response) => {
-    const issues = await getIssues({})
+    const issues = await getIssues()
+
+    if (!issues.length)
+        throw new AppError('No issue found!', 404)
 
     return response.json(issues)
 })
