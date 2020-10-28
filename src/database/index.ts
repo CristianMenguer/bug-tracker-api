@@ -35,7 +35,7 @@ export const aggregate = (collectionName: string, pipeline = [], query = {}) => 
     })
 }
 
-export const get = (collectionName: string, query = {}, fields = {}): Promise<Object[]> => {
+export const get = (collectionName: string, query = {}): Promise<Object[]> => {
 
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
@@ -44,7 +44,7 @@ export const get = (collectionName: string, query = {}, fields = {}): Promise<Ob
             //
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
-            collection.find(query, fields).toArray((err, docs) => {
+            collection.find(query).toArray((err, docs) => {
                 if (err)
                     console.error('An error occurred getting data from MongoDB: ', err)
                 //
