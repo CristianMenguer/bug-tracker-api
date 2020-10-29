@@ -17,6 +17,7 @@ const LOOKUP_ISSUE_PIPELINE = [
             text: 1,
             issue_id: 1,
             user_id: 1,
+            number: 1,
             issue: {
                 $arrayElemAt: ['$issue', 0]
             }
@@ -25,6 +26,7 @@ const LOOKUP_ISSUE_PIPELINE = [
 ]
 
 export const createNewComment = async (comment: Comment): Promise<Comment> => {
+
     delete comment.issue
     delete comment.user
     
@@ -33,7 +35,7 @@ export const createNewComment = async (comment: Comment): Promise<Comment> => {
 }
 
 export const getComments = async (query = {}): Promise<Comment[]> => {
-
+    
     // @ts-ignore
     const comments = await db.aggregate(COLLECTION, LOOKUP_ISSUE_PIPELINE, query) as Comment[]
     return comments

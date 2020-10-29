@@ -25,10 +25,6 @@ class Issue {
         this.created_at = new Date()
         this.updated_at = new Date()
     }
-
-    issueNumber() {
-        return this.project?.slug + '-' + this.number
-    }
 }
 
 export default Issue

@@ -4,16 +4,13 @@ import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 import { getComments } from '../models/comment'
 import { isNumber, isOnlyLetterLowerCase, isValidEmail } from '../services/ValidateInputs'
 import { getUsers } from '../models/user'
-import { getBySlugNumber } from '../models/issue'
+import { getIssues } from '../models/issue'
 import CreateCommentService from '../services/CreateCommentService'
-import { ObjectId } from 'mongodb'
 import User from '../entities/User'
-import { createModuleResolutionCache } from 'typescript'
 
 const commentRoutes = Router()
 
 commentRoutes.use(ensureAuthenticated)
-
 
 commentRoutes.get('/', async (request: Request, response: Response) => {
 
@@ -74,7 +71,16 @@ commentRoutes.post('/:slugNumber', async (request: Request, response: Response) 
     if (!isNumber(issueNumber))
         throw new AppError('Format slug-number not found!')
     //
-    const issues = await getBySlugNumber(slug, issueNumber)
+    const issues = await getIssues({
+        $and: [
+            {
+                'project.slug': slug
+            },
+            {
+                number: parseInt(issueNumber)
+            }
+        ]
+    })
 
     if (!issues.length)
         throw new AppError('Issue not found!', 404)

@@ -1,7 +1,6 @@
 import { IssueStatus } from '../constants/IssueStatus'
 import * as db from '../database'
 import Issue from '../entities/Issue'
-import Project from '../entities/Project'
 
 const COLLECTION = 'issue'
 const LOOKUP_PIPELINE = [
@@ -61,49 +60,5 @@ export const getIssues = async (query = {}): Promise<Issue[]> => {
 
     // @ts-ignore
     const issues = await db.aggregate(COLLECTION, LOOKUP_PIPELINE, query) as Issue[]
-    return issues
-}
-
-export const getByTitleProject = async (title: string, project: Project): Promise<Issue> => {
-
-    if (!title)
-        return new Promise<Issue>((resolve) => resolve())
-
-    const issues = await db.get(COLLECTION, { title, project_id: project._id }) as Issue[]
-
-    return issues[0]
-}
-
-export const getByProject = async (project: Project): Promise<Issue[]> => {
-
-    if (!project)
-        return new Promise<Issue[]>((resolve) => resolve())
-
-    const issues = await db.get(COLLECTION, { project_id: project._id }) as Issue[]
-
-    return issues
-}
-
-export const getByProjectSlug = async (slug: string) => {
-    const LOOKUP_SLUG = [...LOOKUP_PIPELINE, {
-        $match: {
-            'project.slug': slug
-        }
-    }]
-    //
-    // @ts-ignore
-    const issues = await db.aggregate(COLLECTION, LOOKUP_SLUG) as Issue[]
-    return issues
-}
-
-export const getBySlugNumber = async (slug: string, number: string) => {
-    const LOOKUP_SLUG = [...LOOKUP_PIPELINE, {
-        $match: {
-            'project.slug': slug,
-            number: parseInt(number)
-        }
-    }]
-    // @ts-ignore
-    const issues = await db.aggregate(COLLECTION, LOOKUP_SLUG) as Issue[]
     return issues
 }

@@ -3,7 +3,7 @@ import { IssueStatus } from '../constants/IssueStatus'
 import Project from '../entities/Project'
 import AppError from '../errors/AppError'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
-import { getIssues, getBySlugNumber } from '../models/issue'
+import { getIssues } from '../models/issue'
 import { getProjects } from '../models/project'
 import CreateIssueService from '../services/CreateIssueService'
 import UpdateIssueStatusService from '../services/UpdateIssueStatusService'
@@ -63,12 +63,21 @@ issueRoutes.get('/:slugNumber', async (request: Request, response: Response) => 
     if (!isNumber(issueNumber))
         throw new AppError('Format slug-number not found!')
     //
-    const issues = await getBySlugNumber(slug, issueNumber)
+    const issues = await getIssues({
+        $and: [
+            {
+                'project.slug': slug
+            },
+            {
+                number: parseInt(issueNumber)
+            }
+        ]
+    })
 
-    if (!issues.length)
-        throw new AppError('Issue not found!', 404)
+if (!issues.length)
+    throw new AppError('Issue not found!', 404)
 
-    return response.json(issues)
+return response.json(issues)
 })
 
 issueRoutes.get('/:slugNumber/comments', async (request: Request, response: Response) => {
@@ -85,7 +94,16 @@ issueRoutes.get('/:slugNumber/comments', async (request: Request, response: Resp
     if (!isNumber(issueNumber))
         throw new AppError('Format slug-number not found!')
     //
-    const issues = await getBySlugNumber(slug, issueNumber)
+    const issues = await getIssues({
+        $and: [
+            {
+                'project.slug': slug
+            },
+            {
+                number: parseInt(issueNumber)
+            }
+        ]
+    })
 
     if (!issues.length)
         throw new AppError('Issue not found!', 404)
@@ -115,7 +133,16 @@ issueRoutes.get('/:slugNumber/comments/:commentNumber', async (request: Request,
     if (!isNumber(commentNumber))
         throw new AppError('Comment number not found or invalid!')
     //
-    const issues = await getBySlugNumber(slug, issueNumber)
+    const issues = await getIssues({
+        $and: [
+            {
+                'project.slug': slug
+            },
+            {
+                number: parseInt(issueNumber)
+            }
+        ]
+    })
 
     if (!issues.length)
         throw new AppError('Issue not found!', 404)
@@ -128,7 +155,7 @@ issueRoutes.get('/:slugNumber/comments/:commentNumber', async (request: Request,
     const comments = issue.comments.filter(comment => comment.number == parseInt(commentNumber))
     //
     if (!comments || !comments.length)
-        throw new AppError('No comments found!', 404)
+        throw new AppError('Comment not found!', 404)
     //
     return response.json(comments)
 })
@@ -159,7 +186,20 @@ issueRoutes.put('/:slugNumber/:newStatus', async (request: Request, response: Re
     if (!isIssueType(newStatus))
         throw new AppError('Invalid new status!')
     //
-    const issues = await getBySlugNumber(slug, issueNumber)
+    const issues = await getIssues({
+        $and: [
+            {
+                'project.slug': slug
+            },
+            {
+                number: parseInt(issueNumber)
+            }
+        ]
+    })
+    //
+    if (!issues.length)
+        throw new AppError('Issue not found!', 404)
+    //
     const issue = issues[0]
     //
     const updateIssueStatus = new UpdateIssueStatusService()

@@ -12,7 +12,7 @@ export const info = () => {
 }
 
 export const aggregate = (collectionName: string, pipeline = [], query = {}) => {
-    
+
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
             if (err) {
@@ -23,7 +23,9 @@ export const aggregate = (collectionName: string, pipeline = [], query = {}) => 
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
 
-            collection.aggregate(pipeline).match(query).toArray((err, docs) => {
+            const newPipe = createPipeline(pipeline, query)
+            
+            collection.aggregate(newPipe).toArray((err, docs) => {
                 if (err) {
                     console.log(' --- aggregate ERROR --- ')
                     console.log(err)
@@ -35,15 +37,34 @@ export const aggregate = (collectionName: string, pipeline = [], query = {}) => 
     })
 }
 
+const createPipeline = (pipeline: {}[], query = {}): {}[] => {
+    const queryArr = Object.entries(query)
+
+    if (queryArr.length) {
+        const LOOKUP_MATCH = [
+            {
+                $match: query
+            }
+        ]
+        //
+        return [...pipeline, ...LOOKUP_MATCH]
+    }
+    //
+    return pipeline
+}
+
 export const get = (collectionName: string, query = {}): Promise<Object[]> => {
 
     return new Promise((resolve, reject) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
-            if (err)
+            if (err) {
+                console.log(' --- get ERROR --- ')
                 console.error('An error occurred connecting to MongoDB: ', err)
+            }
             //
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
+
             collection.find(query).toArray((err, docs) => {
                 if (err)
                     console.error('An error occurred getting data from MongoDB: ', err)
@@ -73,8 +94,8 @@ export const update = (collectionName: string, filter = {}, update = {}) => {
         MongoClient.connect(uri, MONGO_OPTIONS, (err, client) => {
             const db = client.db(DB_NAME)
             const collection = db.collection(collectionName)
-            collection.findOneAndUpdate(filter, update, {returnOriginal: false}, (err, result) => {
-                if (err) 
+            collection.findOneAndUpdate(filter, update, { returnOriginal: false }, (err, result) => {
+                if (err)
                     reject(err)
                 //
                 resolve(result.value)

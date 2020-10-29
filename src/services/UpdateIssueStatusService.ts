@@ -1,5 +1,4 @@
-import { getIssues, updateIssueStatus } from '../models/issue'
-import { getById } from '../models/project'
+import { updateIssueStatus } from '../models/issue'
 import Issue from '../entities/Issue'
 import AppError from '../errors/AppError'
 import { IssueStatus } from '../constants/IssueStatus'

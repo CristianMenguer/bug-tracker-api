@@ -6,8 +6,6 @@ import userRoutes from './user.routes'
 import commentRoutes from './comment.routes'
 import sessionRoutes from './session.routes'
 
-import { info } from '../database'
-
 const routes = Router()
 
 routes.use('/projects', projectRoutes)
@@ -25,7 +23,8 @@ routes.get('/', (request: Request, response: Response) => {
 routes.get('*', (request: Request, response: Response) => {
     return response.status(404).json({
         message: 'Welcome to Cristian Menguer - 2020087 API 👍🏼',
-        error: 'Route not found! Check your URL/Request!'
+        error: 'Route not found! Check your URL/Request!',
+        bad_url: request.url
     })
 })
 

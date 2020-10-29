@@ -13,12 +13,12 @@ interface RequestDTO {
 class CreateCommentService {
     public async execute({ title, text, user_id, issue }: RequestDTO): Promise<Comment> {
         
-        const commentsFromDb = await getComments({ issue_id: issue._id })
+        const commentsByIssue = await getComments({ issue_id: issue._id })
         
-        if (commentsFromDb.filter(comment => comment.title == title) .length > 0)
+        if (commentsByIssue.filter(comment => comment.title == title) .length > 0)
             throw new AppError('Comment has already been registered!')
         
-        const commentNumber = commentsFromDb.length
+        const commentNumber = commentsByIssue.length
 
         const comment = await createNewComment(new Comment (
             title,
