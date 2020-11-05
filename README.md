@@ -29,13 +29,8 @@ A Nodejs Typescript app built to study API's!
 
 ## Requirements
 
-[NodeJS](https://nodejs.org/en/)
-
-Install global TypeScript and TypeScript Node
-
-```
-npm install -g typescript ts-node
-```
+- [Node.js](https://nodejs.org/), [Yarn](https://yarnpkg.com/) package manager
+- Local or remote instance of [MongoDB](https://www.mongodb.com/)
 
 ### Getting started
 
