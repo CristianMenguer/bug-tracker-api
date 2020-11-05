@@ -29,7 +29,8 @@ A Nodejs Typescript app built to study API's!
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/), [Yarn](https://yarnpkg.com/) package manager
+- [Node.js](https://nodejs.org/): Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
+- [Yarn](https://yarnpkg.com/): Yarn is a package manager that doubles down as project manager.
 - Local or remote instance of [MongoDB](https://www.mongodb.com/)
 
 ### Getting started
