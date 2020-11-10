@@ -20,6 +20,15 @@
 
 <hr />
 
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
+* [Features](#features)
+* [Status](#status)
+* [Inspiration](#inspiration)
+* [Author](#author)
+
 ### Features
 
 A Nodejs Typescript app built to study API's!

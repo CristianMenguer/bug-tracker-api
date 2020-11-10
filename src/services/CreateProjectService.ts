@@ -10,7 +10,7 @@ interface RequestDTO {
 
 class CreateProjectService {
     public async execute({ slug, name, description }: RequestDTO): Promise<Project> {
-        
+
         const projectFromDb = await getProjects({
             $or: [
                 {
@@ -26,13 +26,19 @@ class CreateProjectService {
             throw new AppError('Slug/Name has already been registered!')
         }
 
-        const project = await createNewProject(new Project (
-            slug,
-            name,
-            description
-        ))
+        try {
+            const project = await createNewProject(new Project(
+                slug,
+                name,
+                description
+            ))
 
-        return project
+            return project
+        } catch (err) {
+            console.log('Error: > CreateProjectService > execute:')
+            console.log(err)
+            throw new AppError('Internal error. Please, try again!', 500)
+        }
     }
 }
 

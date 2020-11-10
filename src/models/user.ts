@@ -4,14 +4,25 @@ import User from '../entities/User'
 const COLLECTION = 'user'
 
 export const createNewUser = async (user: User): Promise<User> => {
-    const results = await db.add(COLLECTION, user) as UserResponseInsert
-    return results.ops[0]
+    try {
+        const results = await db.add(COLLECTION, user) as UserResponseInsert
+        return results.ops[0]
+    } catch (err) {
+        console.log('Error: > user.model > createNewUser:')
+        console.log(err)
+        return {} as User
+    }
 }
 
 export const getUsers = async (query = {}): Promise<User[]> => {
 
-    const users = await db.get(COLLECTION, query) as User[]
-
-    return users
-
+    try {
+        const users = await db.get(COLLECTION, query) as User[]
+        return users
+    }
+    catch (err) {
+        console.log('Error: > user.model > getUsers:')
+        console.log(err)
+        return []
+    }
 }

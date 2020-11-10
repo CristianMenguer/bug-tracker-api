@@ -14,12 +14,24 @@ const LOOKUP_ISSUES_PIPELINE = [
 ]
 
 export const createNewProject = async (project: Project): Promise<Project> => {
-    const results = await db.add(COLLECTION, project) as ProjectResponseInsert
-    return results.ops[0]
+    try {
+        const results = await db.add(COLLECTION, project) as ProjectResponseInsert
+        return results.ops[0]
+    } catch (err) {
+        console.log('Error: > project.model > createNewProject:')
+        console.log(err)
+        return {} as Project
+    }
 }
 
 export const getProjects = async (query = {}): Promise<Project[]> => {
-    // @ts-ignore
-    const projects = await db.aggregate(COLLECTION, LOOKUP_ISSUES_PIPELINE, query) as Project[]
-    return projects
+    try {
+        // @ts-ignore
+        const projects = await db.aggregate(COLLECTION, LOOKUP_ISSUES_PIPELINE, query) as Project[]
+        return projects
+    } catch (err) {
+        console.log('Error: > project.model > getProjects:')
+        console.log(err)
+        return []
+    }
 }

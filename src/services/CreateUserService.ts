@@ -14,7 +14,7 @@ interface RequestDTO {
 
 class CreateUserService {
     public async execute({ name, username, email, password, usertype }: RequestDTO): Promise<User> {
-        
+
         const users = await getUsers({
             $or: [
                 {
@@ -29,17 +29,23 @@ class CreateUserService {
         if (users.length)
             throw new AppError('Username or email has already been registered!')
 
-        const hashedPassword = await hash(password, 8)
+        try {
+            const hashedPassword = await hash(password, 8)
 
-        const user = await createNewUser(new User (
-            name,
-            username,
-            email,
-            hashedPassword,
-            usertype
-        ))
-        
-        return user
+            const user = await createNewUser(new User(
+                name,
+                username,
+                email,
+                hashedPassword,
+                usertype
+            ))
+
+            return user
+        } catch (err) {
+            console.log('Error: > CreateUserService > execute:')
+            console.log(err)
+            throw new AppError('Internal error. Please, try again!', 500)
+        }
     }
 }
 

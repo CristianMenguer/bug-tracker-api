@@ -29,15 +29,26 @@ export const createNewComment = async (comment: Comment): Promise<Comment> => {
 
     delete comment.issue
     delete comment.user
-    
-    const results = await db.add(COLLECTION, comment) as IssueResponseInsert
-    return results.ops[0]
+    try {
+        const results = await db.add(COLLECTION, comment) as IssueResponseInsert
+        return results.ops[0]
+    } catch (err) {
+        console.log('Error: > comment.model > createNewComment:')
+        console.log(err)
+        return {} as Comment
+    }
 }
 
 export const getComments = async (query = {}): Promise<Comment[]> => {
-    
-    // @ts-ignore
-    const comments = await db.aggregate(COLLECTION, LOOKUP_ISSUE_PIPELINE, query) as Comment[]
-    return comments
+
+    try {
+        // @ts-ignore
+        const comments = await db.aggregate(COLLECTION, LOOKUP_ISSUE_PIPELINE, query) as Comment[]
+        return comments
+    } catch (err) {
+        console.log('Error: > comment.model > getComments:')
+        console.log(err)
+        return []
+    }
 
 }

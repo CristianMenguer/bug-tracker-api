@@ -12,24 +12,30 @@ interface RequestDTO {
 }
 
 class CreateIssueService {
-    public async execute({ title, description,status, project }: RequestDTO): Promise<Issue> {
-        
+    public async execute({ title, description, status, project }: RequestDTO): Promise<Issue> {
+
         const issuesByProject = await getIssues({ project_id: project._id })
-        
+
         if (issuesByProject.filter(issue => issue.title == title).length > 0)
             throw new AppError('Issue (Title) has already been registered!')
-        
+
         const issueNumber = issuesByProject.length
 
-        const issue = await createNewIssue(new Issue (
-            title,
-            description,
-            project,
-            issueNumber + 1,
-            status as IssueStatus
-        ))
+        try {
+            const issue = await createNewIssue(new Issue(
+                title,
+                description,
+                project,
+                issueNumber + 1,
+                status as IssueStatus
+            ))
 
-        return issue
+            return issue
+        } catch (err) {
+            console.log('Error: > CreateIssueService > execute:')
+            console.log(err)
+            throw new AppError('Internal error. Please, try again!', 500)
+        }
     }
 }
 
