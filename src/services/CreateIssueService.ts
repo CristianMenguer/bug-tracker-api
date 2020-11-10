@@ -9,10 +9,11 @@ interface RequestDTO {
     description: string
     status: string
     project: Project
+    daysDueDate: number
 }
 
 class CreateIssueService {
-    public async execute({ title, description, status, project }: RequestDTO): Promise<Issue> {
+    public async execute({ title, description, status, project, daysDueDate }: RequestDTO): Promise<Issue> {
 
         const issuesByProject = await getIssues({ project_id: project._id })
 
@@ -27,7 +28,8 @@ class CreateIssueService {
                 description,
                 project,
                 issueNumber + 1,
-                status as IssueStatus
+                status as IssueStatus,
+                daysDueDate
             ))
 
             return issue

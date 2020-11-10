@@ -18,9 +18,9 @@ issueRoutes.post('/:slug', async (request: Request, response: Response) => {
 
         const { slug } = request.params
 
-        const { title, description, status } = request.body
+        const { title, description, status, daysDueDate } = request.body
 
-        if (!title || !description || !status || !slug)
+        if (!title || !description || !status || !slug || !daysDueDate)
             throw new AppError('It is missing some parameters!')
 
         if (!isIssueType(status))
@@ -39,7 +39,8 @@ issueRoutes.post('/:slug', async (request: Request, response: Response) => {
             title,
             description,
             status,
-            project
+            project,
+            daysDueDate
         })
 
         return response.json(issue)
