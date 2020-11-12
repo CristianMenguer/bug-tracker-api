@@ -22,19 +22,16 @@
 
 ## Table of contents
 * [General info](#general-info)
+* [Getting started](#setup)
 * [Technologies](#technologies)
-* [Setup](#setup)
 * [Features](#features)
-* [Status](#status)
-* [Inspiration](#inspiration)
+* [Changelog](#changelog)
+* [Roadmap](#roadmap)
 * [Author](#author)
 
-### Features
+## General info
 
 A Nodejs Typescript app built to study API's!
-
-- **Node.js** — Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
-- **Typescript** — Typed JavaScript at Any Scale.
 
 ## Requirements
 
@@ -42,9 +39,20 @@ A Nodejs Typescript app built to study API's!
 - [Yarn](https://yarnpkg.com/): Yarn is a package manager that doubles down as project manager.
 - Local or remote instance of [MongoDB](https://www.mongodb.com/)
 
-### Getting started
+## Getting started
 
 1. Clone this repo using `git clone https://github.com/cristianmenguer/cbwa-ca1.git`.
 2. Move to the appropriate directory: `cd cbwa-ca1`.<br />
 3. Run `yarn` to install dependencies.<br />
 4. Run `yarn dev:cluster`, it will start the API using the Atlas cluster.
+
+## Features
+
+- **Node.js** — Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
+- **Typescript** — Typed JavaScript at Any Scale.
+
+## Changelog
+
+## Roadmap
+
+## Author
