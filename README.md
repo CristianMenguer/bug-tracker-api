@@ -22,7 +22,7 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Getting started](#setup)
+* [Getting started](#getting-started)
 * [Technologies](#technologies)
 * [Features](#features)
 * [Changelog](#changelog)
