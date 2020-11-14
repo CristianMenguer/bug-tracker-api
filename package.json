@@ -8,18 +8,19 @@
     "postinstall": "npm run build-ts",
     "start-production": "node dist/server.js",
     "dev": "nodemon",
-    "dev:cluster": "MONGO_DB_NAME='cbwaCA2' MONGO_URI='mongodb+srv://cris:cris@cluster0.pp4u2.mongodb.net/?retryWrites=true&w=majority' ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
-    "dev:docker": "MONGO_DB_NAME='cbwaCA1' MONGO_URI='mongodb://localhost:27017' ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts"
+    "dev:cluster": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev:docker": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
-    "uuidv4": "^6.2.4",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.3",
+    "uuidv4": "^6.2.4"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

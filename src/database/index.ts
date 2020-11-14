@@ -1,4 +1,7 @@
 import { MongoClient } from 'mongodb'
+import { config } from 'dotenv'
+
+config()
 
 const uri = process.env.MONGO_URI as string
 const DB_NAME = process.env.MONGO_DB_NAME as string
@@ -8,8 +11,10 @@ const MONGO_OPTIONS = {
 
 export const info = () => {
     console.log('uri: ' + uri)
-    console.log('db_name: ' + DB_NAME)
+    console.log('db_name: ' + DB_NAME)    
 }
+
+info()
 
 export const aggregate = (collectionName: string, pipeline = [], query = {}) => {
 
