@@ -14,8 +14,6 @@ export const info = () => {
     console.log('db_name: ' + DB_NAME)    
 }
 
-info()
-
 export const aggregate = (collectionName: string, pipeline = [], query = {}) => {
 
     return new Promise((resolve, reject) => {
