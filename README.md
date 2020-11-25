@@ -66,8 +66,11 @@ Body:
 
 ### Project
 
-#### Get all projects
-{GET} /projects => it returns all the projects with their issues.
+#### Getting all projects
+```
+{GET} /projects
+```
+it returns all the projects with their issues.
 
 #### Get individual projects
 {GET} /projects/{:projectSlug} =>  it returns a specific project with its issues.
