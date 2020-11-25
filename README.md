@@ -49,18 +49,13 @@ A Nodejs Typescript app built to study API's!
 ## Features
 
 #### Session
-The first thing that needs to be done is create a session to get a JWT.
-In order to get it, you need to use the route {POST}/session, sending in the body two parameters, "username" and "password":
+
+- Creating a session (JWT):
+`{POST}/session`
 {
-    "username": "davealbert",
-    "password": "d@lbert123456"
+    "username": "username",
+    "password": "password"
 }
-or
-{
-    "username": "cristianmenguer",
-    "password": "cristianmenguer"
-}
-You will receive a token, which needs to be used for all other routes (Bearer Token).
 
 
 ### Project
