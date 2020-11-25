@@ -51,7 +51,10 @@ A Nodejs Typescript app built to study API's!
 #### Session
 
 - Creating a session (JWT):
-`{POST}/session`
+```
+{POST}/session
+```
+
 Body: 
 `{
     "username": "username",
