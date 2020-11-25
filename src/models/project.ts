@@ -6,10 +6,25 @@ const LOOKUP_ISSUES_PIPELINE = [
     {
         $lookup: {
             from: 'issue',
-            localField: '_id',
-            foreignField: 'project_id',
+            let: { projectId: '$_id' },
+            pipeline: [
+                { $match: { $expr: { $eq: ['$project_id', '$$projectId'] } } },
+
+                {
+                    $lookup: {
+                        from: 'comment',
+                        let: { issueId: '$_id' },
+                        pipeline: [
+                            { $match: { $expr: { $eq: ['$issue_id', '$$issueId'] } } }
+                        ],
+                        as: 'comments',
+                    },
+                }
+
+            ],
             as: 'issues',
-        }
+
+        },
     }
 ]
 
