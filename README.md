@@ -48,6 +48,116 @@ A Nodejs Typescript app built to study API's!
 
 ## Features
 
+- Session
+The first thing that needs to be done is create a session to get a JWT.
+In order to get it, you need to use the route {POST}/session, sending in the body two parameters, "username" and "password":
+{
+    "username": "davealbert",
+    "password": "d@lbert123456"
+}
+or
+{
+    "username": "cristianmenguer",
+    "password": "cristianmenguer"
+}
+You will receive a token, which needs to be used for all other routes (Bearer Token).
+
+
+- Project
+
+Get all projects
+{GET} /projects => it returns all the projects with their issues.
+
+Get individual projects
+{GET} /projects/{:projectSlug} =>  it returns a specific project with its issues.
+
+Add new Projects individually
+{POST}/projects => it adds a new project and returns the object created. The following body is necessary.
+{
+    "slug": "BUGS",
+    "name": "Bug Tracker",
+    "description": "This is a Bug Tracker Project"
+}
+
+
+- User
+
+Get all users
+{GET} /users => it returns all the users.
+
+Get individual users
+{GET} /users/{:EMAIL} 
+{GET} /users/{:USERNAME} 
+It is possible to search a user by its email or username.
+
+Add new users individually
+{POST} /users =>  it adds a new user and returns the object created. The following body is necessary.
+{
+    "name": "Dave Albert",
+    "username": "davealbert",
+    "email": "dalbert@cct.ie",
+    "password": "d@lbert123456",
+    "usertype": "admin"
+}
+
+The password is not saved, only the hashed password.
+
+There are two options for UserType:
+UserType {
+    ADMIN = 'admin',
+    USER = 'user'
+}
+
+
+- Issue
+
+Get all issues (bring comments with it)
+{GET} /issues => it returns all the issues with their comments.
+
+Get individual issues
+{GET} /issues/{:projectSlug-:issueNumber} =>  it returns a specific issue with its comments.
+
+Get all issues for a project
+{GET} /projects/{:projectSlug}/issues =>  it returns all issues from a specific project. 
+
+*BONUS*: Updated the status of an issue
+{PUT} /issues/{:projectSlug-:issueNumber}/{:STATUS}  =>  it updates the specific issue status to the new one and returns the new object. 
+
+Add new issues to a project individually
+{POST}/issues/{:projectSlug} =>  it adds a new issue to a specific project and returns the object created. The following body is necessary.
+{
+    "title": "Cannot Track a Bug",
+    "description": "Error when trying to track a bug",
+    "status": "open"
+}
+
+
+- Comments
+
+Get all comments (optional)
+{GET}/comments => it returns all the comments with their specific issue.
+
+Get all comments for an author (optional)
+{GET} /comments/{EMAIL} 
+{GET} /comments/{USERNAME}   
+It returns all the comments that were created by a specific user. It is possible to search by email or username.
+
+Get all comments for an issue
+{GET} /issues/{:projectSlug-:issueNumber}/comments => it returns all the comments from a specific issue.
+
+Get individual comments for an issue
+{GET} /issues/{:projectSlug-:issueNumber}/comments/{:commentNumber}  => it returns a specific comment from a specific issue.   
+
+Add new comments to an issue
+{POST} /comments/{:projectSlug-:issueNumber} =>  it adds a new comment to a specific issue and returns the object created. The following body is necessary. 
+{
+    "title": "Comment 2",
+    "text": "This is the second comment"
+}
+In this case, the author is the user logged in, the same that was used to get the token. In order to test it, it is necessary to get another token with another username/password.
+
+## Technologies
+
 - **Node.js** — Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
 - **Typescript** — Typed JavaScript at Any Scale.
 
@@ -88,7 +198,8 @@ A Nodejs Typescript app built to study API's!
 
 ## Roadmap
 
-
+#### November, 2020
+- Frontend: development of a ReactJS
 
 
 ## Author
