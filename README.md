@@ -53,6 +53,9 @@ A Nodejs Typescript app built to study API's!
 
 ## Changelog
 
+### Oct 17, 2020
+- Project Created
+
 ## Roadmap
 
 
@@ -60,4 +63,4 @@ A Nodejs Typescript app built to study API's!
 
 ## Author
 
-Created by [@CristianMenguer](https://www.linkedin.com/in/cristianmenguer/) - feel free to contact me!
+Created by [@CristianMenguer](https://github.com/CristianMenguer/) - feel free to contact me!
