@@ -223,11 +223,11 @@ In this case, the author is the user logged in, the same that was used to get th
 
 - **Node.js** — Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
 - **Typescript** — Typed JavaScript at Any Scale.
-- **bcrypt.js** - Optimized bcrypt in plain JavaScript with zero dependencies.
-- **express** - Fast, unopinionated, minimalist web framework for node.
-- **jsonwebtoken** - JsonWebToken implementation for node.js.
-- **uuidv4** - uuidv4 creates v4 UUIDs.
-- **mongodb** - The MongoDB Database.
+- **bcrypt.js** — Optimized bcrypt in plain JavaScript with zero dependencies.
+- **express** — Fast, unopinionated, minimalist web framework for node.
+- **jsonwebtoken** — JsonWebToken implementation for node.js.
+- **uuidv4** — uuidv4 creates v4 UUIDs.
+- **mongodb** — The MongoDB Database.
 
 ## Changelog
 
