@@ -55,4 +55,9 @@ A Nodejs Typescript app built to study API's!
 
 ## Roadmap
 
+
+
+
 ## Author
+
+Created by [@CristianMenguer](https://www.linkedin.com/in/cristianmenguer/) - feel free to contact me!
