@@ -48,9 +48,9 @@ A Nodejs Typescript app built to study API's!
 
 ## Features
 
-#### Session
+### Session
 
-- Creating a session (JWT):
+#### Creating a session (JWT):
 ```
 {POST}/session
 ```
