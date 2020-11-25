@@ -1,22 +1,22 @@
-<h1 align="center">Bug Tracker</h1>
+<h1 align='center'>Bug Tracker</h1>
 <br />
 <br />
 
-<p align="center">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/cristianmenguer/cbwa-ca1?color=red">
+<p align='center'>
+  <img alt='GitHub top language' src='https://img.shields.io/github/languages/top/cristianmenguer/cbwa-ca1?color=red'>
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/cristianmenguer/cbwa-ca1?color=blue">
+  <img alt='Repository size' src='https://img.shields.io/github/repo-size/cristianmenguer/cbwa-ca1?color=blue'>
 
-  <a href="https://github.com/cristianmenguer/cbwa-ca1/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/cristianmenguer/cbwa-ca1?color=orange">
+  <a href='https://github.com/cristianmenguer/cbwa-ca1/commits/master'>
+    <img alt='GitHub last commit' src='https://img.shields.io/github/last-commit/cristianmenguer/cbwa-ca1?color=orange'>
   </a>
 
-  <a href="https://github.com/cristianmenguer/cbwa-ca1/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/cristianmenguer/cbwa-ca1?color=green">
+  <a href='https://github.com/cristianmenguer/cbwa-ca1/issues'>
+    <img alt='Repository issues' src='https://img.shields.io/github/issues/cristianmenguer/cbwa-ca1?color=green'>
   </a>
 </p>
 
-<h2 align="center">A Typescript API developed for study purposes in CCT - Cloud-based Web Applications course</h2>
+<h2 align='center'>A Typescript API developed for study purposes in CCT - Cloud-based Web Applications course</h2>
 
 <hr />
 
@@ -24,8 +24,8 @@
 * [General info](#general-info)
 * [Requirements](#requirements)
 * [Getting started](#getting-started)
-* [Technologies](#technologies)
 * [Routes](#routes)
+* [Technologies](#technologies)
 * [Changelog](#changelog)
 * [Roadmap](#roadmap)
 * [Author](#author)
@@ -53,14 +53,14 @@ A Nodejs Typescript app built to study API's!
 
 #### Creating a session (JWT):
 ```
-{POST}/session
+{POST} /session
 ```
 
 Body: 
 ```
 {
-    "username": "username",
-    "password": "password"
+    'username': 'username',
+    'password': 'password'
 }
 ```
 
@@ -71,7 +71,7 @@ Body:
 ```
 {GET} /projects
 ```
-it returns all the projects with their issues.
+It returns all the projects with their issues.
 
 #### Getting individual projects
 ```
@@ -81,14 +81,14 @@ It returns a specific project with its issues.
 
 #### Adding new Projects individually
 ```
-{POST}/projects
+{POST} /projects
 ```
 It adds a new project and returns the object created. The following body is necessary.
 ```
 {
-    "slug": "BUGS",
-    "name": "Bug Tracker",
-    "description": "This is a Bug Tracker Project"
+    'slug': 'BUGS',
+    'name': 'Bug Tracker',
+    'description': 'This is a Bug Tracker Project'
 }
 ```
 
@@ -117,11 +117,11 @@ It is possible to search a user by its email or username.
 It adds a new user and returns the object created. The following body is necessary.
 ```
 {
-    "name": "Name Surname",
-    "username": "username",
-    "email": "username@email.com",
-    "password": "password",
-    "usertype": "user"
+    'name': 'Name',
+    'username': 'username',
+    'email': 'username@email.com',
+    'password': 'password',
+    'usertype': 'user'
 }
 ```
 
@@ -152,39 +152,39 @@ It returns a specific issue with its comments.
 
 #### Getting all issues for a project
 ```
-{GET} /projects/{:projectSlug}/issues
+{GET} /projects/{:projectSlug} /issues
 ```
 It returns all issues from a specific project. 
 
 #### Updating the status of an issue
 ```
-{PUT} /issues/{:projectSlug-:issueNumber}/{:STATUS}
+{PUT} /issues/{:projectSlug-:issueNumber} /{:STATUS}
 ```
 It updates the specific issue status to the new one and returns the new object. 
 
 #### Adding new issues to a project individually
 ```
-{POST}/issues/{:projectSlug}
+{POST} /issues/{:projectSlug}
 ```
 It adds a new issue to a specific project and returns the object created. The following body is necessary.
 ```
 {
-    "title": "Cannot Track a Bug",
-    "description": "Error when trying to track a bug",
-    "status": "open"
+    'title': 'Cannot Track a Bug',
+    'description': 'Error when trying to track a bug',
+    'status': 'open'
 }
 ```
 
 
 ### Comments
 
-#### Getting all comments (optional)
+#### Getting all comments
 ```
-{GET}/comments
+{GET} /comments
 ```
 It returns all the comments with their specific issue.
 
-#### Getting all comments for an author (optional)
+#### Getting all comments for an author
 ```
 {GET} /comments/{EMAIL} 
 ```
@@ -196,13 +196,13 @@ It returns all the comments that were created by a specific user. It is possible
 
 #### Getting all comments for an issue
 ```
-{GET} /issues/{:projectSlug-:issueNumber}/comments
+{GET} /issues/{:projectSlug-:issueNumber} /comments
 ```
 It returns all the comments from a specific issue.
 
 #### Getting individual comments for an issue
 ```
-{GET} /issues/{:projectSlug-:issueNumber}/comments/{:commentNumber}
+{GET} /issues/{:projectSlug-:issueNumber} /comments/{:commentNumber}
 ```
 It returns a specific comment from a specific issue.   
 
@@ -213,8 +213,8 @@ It returns a specific comment from a specific issue.
 It adds a new comment to a specific issue and returns the object created. The following body is necessary. 
 ```
 {
-    "title": "Comment 2",
-    "text": "This is the second comment"
+    'title': 'Comment 2',
+    'text': 'This is the second comment'
 }
 ```
 In this case, the author is the user logged in, the same that was used to get the token. In order to test it, it is necessary to get another token with another username/password.
@@ -223,6 +223,11 @@ In this case, the author is the user logged in, the same that was used to get th
 
 - **Node.js** — Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
 - **Typescript** — Typed JavaScript at Any Scale.
+- **bcrypt.js** - Optimized bcrypt in plain JavaScript with zero dependencies.
+- **express** - Fast, unopinionated, minimalist web framework for node.
+- **jsonwebtoken** - JsonWebToken implementation for node.js.
+- **uuidv4** - uuidv4 creates v4 UUIDs.
+- **mongodb** - The MongoDB Database.
 
 ## Changelog
 
