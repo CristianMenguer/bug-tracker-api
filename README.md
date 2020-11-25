@@ -53,8 +53,38 @@ A Nodejs Typescript app built to study API's!
 
 ## Changelog
 
+### Nov 25, 2020
+- Comments: Comments and Issues included in the Get Project method
+
+### Nov 14, 2020
+- .env: .env file created
+
+### Nov 11, 2020
+- Docker: Dockerfile created
+
+### Nov 5, 2020
+- Readme: Readme file created
+
+### Oct 29, 2020
+- Interfaces: Interfaces moved to specific files
+
+### Oct 28, 2020
+- Comments and Issues: Insertion and new input validation of Comments and Issues
+
+### Oct 24, 2020
+- Status Issue and Get Projects: Possibility to change the status of an Issue and where clause to get Projects
+
+### Oct 23, 2020
+- Get Users and Deployment: Get users by email and first deploy to Heroku
+
+### Oct 22, 2020
+- Aggregate: Aggregate methods implemented and Input Validations
+
+### Oct 18, 2020
+- Users, Projects and Issues: Entities, models and services created
+
 ### Oct 17, 2020
-- Project Created
+- Project Created: DB, Routes and JWT created
 
 ## Roadmap
 
