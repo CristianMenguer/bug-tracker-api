@@ -22,6 +22,7 @@
 
 ## Table of contents
 * [General info](#general-info)
+* [Requirements](#requirements)
 * [Getting started](#getting-started)
 * [Technologies](#technologies)
 * [Routes](#routes)
