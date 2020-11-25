@@ -91,81 +91,131 @@ It adds a new project and returns the object created. The following body is nece
 }
 ```
 
-
 ### User
 
-#### Get all users
-{GET} /users => it returns all the users.
+#### Getting all users
+```
+{GET} /users
+```
+It returns all the users.
 
-#### Get individual users
+#### Getting individual users
+```
 {GET} /users/{:EMAIL} 
+```
+or
+```
 {GET} /users/{:USERNAME} 
+```
 It is possible to search a user by its email or username.
 
-#### Add new users individually
-{POST} /users =>  it adds a new user and returns the object created. The following body is necessary.
+#### Adding new users individually
+```
+{POST} /users
+```
+It adds a new user and returns the object created. The following body is necessary.
+```
 {
-    "name": "Dave Albert",
-    "username": "davealbert",
-    "email": "dalbert@cct.ie",
-    "password": "d@lbert123456",
-    "usertype": "admin"
+    "name": "Name Surname",
+    "username": "username",
+    "email": "username@email.com",
+    "password": "password",
+    "usertype": "user"
 }
+```
 
 The password is not saved, only the hashed password.
 
 There are two options for UserType:
+```
 UserType {
     ADMIN = 'admin',
     USER = 'user'
 }
+```
 
 
 ### Issue
 
-#### Get all issues (bring comments with it)
-{GET} /issues => it returns all the issues with their comments.
+#### Getting all issues (bring comments with it)
+```
+{GET} /issues
+```
+It returns all the issues with their comments.
 
-#### Get individual issues
-{GET} /issues/{:projectSlug-:issueNumber} =>  it returns a specific issue with its comments.
+#### Getting individual issues
+```
+{GET} /issues/{:projectSlug-:issueNumber}
+```
+It returns a specific issue with its comments.
 
-#### Get all issues for a project
-{GET} /projects/{:projectSlug}/issues =>  it returns all issues from a specific project. 
+#### Getting all issues for a project
+```
+{GET} /projects/{:projectSlug}/issues
+```
+It returns all issues from a specific project. 
 
-#### Updated the status of an issue
-{PUT} /issues/{:projectSlug-:issueNumber}/{:STATUS}  =>  it updates the specific issue status to the new one and returns the new object. 
+#### Updating the status of an issue
+```
+{PUT} /issues/{:projectSlug-:issueNumber}/{:STATUS}
+```
+It updates the specific issue status to the new one and returns the new object. 
 
-#### Add new issues to a project individually
-{POST}/issues/{:projectSlug} =>  it adds a new issue to a specific project and returns the object created. The following body is necessary.
+#### Adding new issues to a project individually
+```
+{POST}/issues/{:projectSlug}
+```
+It adds a new issue to a specific project and returns the object created. The following body is necessary.
+```
 {
     "title": "Cannot Track a Bug",
     "description": "Error when trying to track a bug",
     "status": "open"
 }
+```
 
 
 ### Comments
 
-#### Get all comments (optional)
-{GET}/comments => it returns all the comments with their specific issue.
+#### Getting all comments (optional)
+```
+{GET}/comments
+```
+It returns all the comments with their specific issue.
 
-#### Get all comments for an author (optional)
+#### Getting all comments for an author (optional)
+```
 {GET} /comments/{EMAIL} 
+```
+or
+```
 {GET} /comments/{USERNAME}   
+```
 It returns all the comments that were created by a specific user. It is possible to search by email or username.
 
-#### Get all comments for an issue
-{GET} /issues/{:projectSlug-:issueNumber}/comments => it returns all the comments from a specific issue.
+#### Getting all comments for an issue
+```
+{GET} /issues/{:projectSlug-:issueNumber}/comments
+```
+It returns all the comments from a specific issue.
 
-#### Get individual comments for an issue
-{GET} /issues/{:projectSlug-:issueNumber}/comments/{:commentNumber}  => it returns a specific comment from a specific issue.   
+#### Getting individual comments for an issue
+```
+{GET} /issues/{:projectSlug-:issueNumber}/comments/{:commentNumber}
+```
+It returns a specific comment from a specific issue.   
 
-#### Add new comments to an issue
-{POST} /comments/{:projectSlug-:issueNumber} =>  it adds a new comment to a specific issue and returns the object created. The following body is necessary. 
+#### Adding new comments to an issue
+```
+{POST} /comments/{:projectSlug-:issueNumber}
+```
+It adds a new comment to a specific issue and returns the object created. The following body is necessary. 
+```
 {
     "title": "Comment 2",
     "text": "This is the second comment"
 }
+```
 In this case, the author is the user logged in, the same that was used to get the token. In order to test it, it is necessary to get another token with another username/password.
 
 ## Technologies
