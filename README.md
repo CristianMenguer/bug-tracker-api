@@ -72,16 +72,24 @@ Body:
 ```
 it returns all the projects with their issues.
 
-#### Get individual projects
-{GET} /projects/{:projectSlug} =>  it returns a specific project with its issues.
+#### Getting individual projects
+```
+{GET} /projects/{:projectSlug}
+```
+It returns a specific project with its issues.
 
-#### Add new Projects individually
-{POST}/projects => it adds a new project and returns the object created. The following body is necessary.
+#### Adding new Projects individually
+```
+{POST}/projects
+```
+It adds a new project and returns the object created. The following body is necessary.
+```
 {
     "slug": "BUGS",
     "name": "Bug Tracker",
     "description": "This is a Bug Tracker Project"
 }
+```
 
 
 ### User
