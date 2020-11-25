@@ -24,7 +24,7 @@
 * [General info](#general-info)
 * [Getting started](#getting-started)
 * [Technologies](#technologies)
-* [Features](#features)
+* [Routes](#routes)
 * [Changelog](#changelog)
 * [Roadmap](#roadmap)
 * [Author](#author)
@@ -46,7 +46,7 @@ A Nodejs Typescript app built to study API's!
 3. Run `yarn` to install dependencies.<br />
 4. Run `yarn dev:cluster`, it will start the API using the Atlas cluster.
 
-## Features
+## Routes
 
 ### Session
 
