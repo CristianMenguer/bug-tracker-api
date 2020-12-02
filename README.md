@@ -45,7 +45,7 @@ A Nodejs Typescript app built to study API's!
 1. Clone this repo using `git clone https://github.com/cristianmenguer/cbwa-ca1.git`.
 2. Move to the appropriate directory: `cd cbwa-ca1`.<br />
 3. Run `yarn` to install dependencies.<br />
-4. Run `yarn dev:cluster`, it will start the API using the Atlas cluster.
+4. Run `yarn start`, it will start the API using the Atlas cluster.
 
 ## Routes
 
