@@ -8,26 +8,26 @@ import { isOnlyLetterLowerCase, isValidEmail } from '../services/ValidateInputs'
 
 const userRoutes = Router()
 
-userRoutes.use(ensureAuthenticated)
-
 
 userRoutes.post('/', async (request: Request, response: Response) => {
 
+    const { name, username, email, password, usertype } = request.body
+
+    console.log(request.body)
+
+    if (!name || !username || !email || !password || !usertype)
+        throw new AppError('It is missing some parameters!')
+    //
+    if (!isOnlyLetterLowerCase(username))
+        throw new AppError('Only lowercase letters are accepted to username!')
+    //
+    if (!isValidEmail(email))
+        throw new AppError('Email is invalid!')
+    //
+
+    const createUser = new CreateUserService()
+
     try {
-        const { name, username, email, password, usertype } = request.body
-
-        if (!name || !username || !email || !password || !usertype)
-            throw new AppError('It is missing some parameters!')
-        //
-        if (!isOnlyLetterLowerCase(username))
-            throw new AppError('Only lowercase letters are accepted to username!')
-        //
-        if (!isValidEmail(email))
-            throw new AppError('Email is invalid!')
-        //
-
-        const createUser = new CreateUserService()
-
         const user = await createUser.execute({
             name,
             username,
@@ -38,9 +38,13 @@ userRoutes.post('/', async (request: Request, response: Response) => {
 
         return response.json(user)
     } catch (err) {
+        console.log('Error > user.routes > POST')
+        console.log(err)
         return response.status(409).json({ error: err.message })
     }
 })
+
+userRoutes.use(ensureAuthenticated)
 
 userRoutes.get('/', async (request: Request, response: Response) => {
 

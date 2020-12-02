@@ -10,13 +10,19 @@ interface RequestDTO {
 
 class UpdateIssueStatusService {
     public async execute({ issue, newStatus }: RequestDTO): Promise<Issue> {
-        
+
         if (!issue._id)
             throw new AppError('Internal error. Try again, please!')
 
-        const updatedIssue = await updateIssueStatus(issue._id, newStatus)
+        try {
+            const updatedIssue = await updateIssueStatus(issue._id, newStatus)
 
-        return updatedIssue
+            return updatedIssue
+        } catch (err) {
+            console.log('Error: > UpdateIssueStatusService > execute:')
+            console.log(err)
+            throw new AppError('Internal error. Please, try again!', 500)
+        }
     }
 }
 
